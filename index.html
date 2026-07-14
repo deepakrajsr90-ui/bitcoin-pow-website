@@ -39,6 +39,13 @@
         .neon-glow {
             box-shadow: 0 0 70px rgba(247, 147, 26, 0.65);
         }
+        .modal {
+            animation: fadeInScale 0.2s ease-out forwards;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 
@@ -70,11 +77,12 @@
                     <i class="fas fa-chart-simple"></i>
                     Explorer
                 </a>
-                <a href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic" target="_blank" rel="noopener noreferrer"
+                <!-- Buy Button now opens popup -->
+                <button onclick="showBuyModal()"
                    class="px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl hover:scale-105 transition-all flex items-center gap-2">
                     <i class="fas fa-shopping-cart"></i>
                     Buy BTCW
-                </a>
+                </button>
             </div>
             
             <!-- Mobile Hamburger -->
@@ -99,10 +107,11 @@
                        class="flex items-center gap-3 px-6 py-4 border border-white/60 rounded-2xl">
                         <i class="fas fa-chart-simple"></i> Explorer
                     </a>
-                    <a href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic" target="_blank" rel="noopener noreferrer"
+                    <!-- Mobile Buy Button now opens popup -->
+                    <button onclick="showBuyModal(); document.getElementById('mobile-menu').classList.add('hidden');"
                        class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl">
                         <i class="fas fa-shopping-cart"></i> Buy BTCW
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -150,7 +159,7 @@
         </div>
     </section>
 
-    <!-- VISION - Updated -->
+    <!-- VISION -->
     <section id="vision" class="py-20 md:py-28 bg-zinc-950">
         <div class="max-w-5xl mx-auto px-6 text-center">
             <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -219,14 +228,11 @@
     <footer class="bg-black py-16 border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col items-center gap-8 text-center">
-                
-                <!-- Logo + Name -->
                 <div class="flex items-center gap-4">
                     <img src="images/btcw.svg" class="w-10 h-10" alt="BitcoinPoW Logo">
                     <span class="text-2xl font-bold">BitcoinPoW</span>
                 </div>
                 
-                <!-- Social Links -->
                 <div class="flex gap-6 text-2xl">
                     <a href="https://x.com/bitcoin_pow" target="_blank" rel="noopener noreferrer" 
                        class="hover:text-amber-400 transition-colors">
@@ -246,15 +252,64 @@
                     </a>
                 </div>
                 
-                <!-- Copyright -->
                 <p class="text-gray-500 text-sm">© 2026 BitcoinPoW • All Rights Reserved</p>
-                
             </div>
         </div>
     </footer>
 
-    <!-- PARTICLE SCRIPT -->
+    <!-- BUY MODAL / POPUP -->
+    <div id="buy-modal" onclick="if (event.target.id === 'buy-modal') hideBuyModal()" 
+         class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal glass max-w-md w-full mx-4 p-8 rounded-3xl border border-white/20">
+            
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Buy BTCW</h3>
+                <button onclick="hideBuyModal()" class="text-2xl text-gray-400 hover:text-white">×</button>
+            </div>
+            
+            <p class="text-gray-400 mb-6 text-sm">Choose your preferred exchange:</p>
+            
+            <div class="space-y-4">
+                <!-- Dex-Trade -->
+                <a href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic" 
+                   target="_blank" rel="noopener noreferrer"
+                   class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-chart-line text-black text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-semibold text-lg group-hover:text-amber-400 transition">Dex-Trade</div>
+                        <div class="text-sm text-gray-400">BTCW / USDT • Spot Trading</div>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+                </a>
+                
+                <!-- EADX Exchange -->
+                <a href="https://eadxexchange.com/trade/BTCW-USDT" 
+                   target="_blank" rel="noopener noreferrer"
+                   class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-semibold text-lg group-hover:text-amber-400 transition">EADX Exchange</div>
+                        <div class="text-sm text-gray-400">BTCW / USDT • Spot Trading</div>
+                    </div>
+                    <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+                </a>
+            </div>
+            
+            <button onclick="hideBuyModal()" 
+                    class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- PARTICLE SCRIPT + MODAL JS -->
     <script>
+        // Particle background (unchanged)
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -326,6 +381,28 @@
             menuBtn.innerHTML = mobileMenu.classList.contains('hidden') 
                 ? '<i class="fas fa-bars"></i>' 
                 : '<i class="fas fa-times"></i>';
+        });
+
+        // Buy Modal Functions
+        function showBuyModal() {
+            document.getElementById('buy-modal').classList.remove('hidden');
+            document.getElementById('buy-modal').classList.add('flex');
+        }
+
+        function hideBuyModal() {
+            const modal = document.getElementById('buy-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                const modal = document.getElementById('buy-modal');
+                if (!modal.classList.contains('hidden')) {
+                    hideBuyModal();
+                }
+            }
         });
     </script>
 </body>
