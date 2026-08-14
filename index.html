@@ -1,409 +1,1712 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>BitcoinPoW (BTCW) — The Decentralized Future</title>
-    <meta name="description" content="BitcoinPoW uses PoW + PoT to eliminate mining pools and restore Satoshi's true vision.">
-    
+
+    <meta
+        name="description"
+        content="BitcoinPoW uses PoW + PoT to eliminate mining pools and restore Satoshi's true vision."
+    >
+
     <link rel="icon" href="favicon.ico">
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
     <style>
+
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-        
+
+        /* =========================================================
+           GENERAL
+        ========================================================== */
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
         .btc-gradient {
-            background: linear-gradient(90deg, #f7931a, #ffd700, #ffed4a);
+            background: linear-gradient(
+                90deg,
+                #f7931a,
+                #ffd700,
+                #ffed4a
+            );
+
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+
+        /* =========================================================
+           HERO
+        ========================================================== */
+
         .hero-bg {
-            background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+            background: linear-gradient(
+                180deg,
+                #0a0a0a 0%,
+                #000000 100%
+            );
         }
+
+
+        /* =========================================================
+           PARTICLES
+        ========================================================== */
+
         canvas#particles {
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
+
             width: 100%;
             height: 100%;
+
             z-index: 1;
+
             opacity: 0.85;
+
             pointer-events: none;
         }
-        .content { position: relative; z-index: 2; }
+
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* =========================================================
+           GLASS EFFECT
+        ========================================================== */
+
         .glass {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(
+                255,
+                255,
+                255,
+                0.06
+            );
+
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            border: 1px solid rgba(
+                255,
+                255,
+                255,
+                0.1
+            );
         }
+
+
+        /* =========================================================
+           BTCW GLOW
+        ========================================================== */
+
         .neon-glow {
-            box-shadow: 0 0 70px rgba(247, 147, 26, 0.65);
+            box-shadow:
+                0 0 70px
+                rgba(
+                    247,
+                    147,
+                    26,
+                    0.65
+                );
         }
+
+
+        /* =========================================================
+           MODAL ANIMATION
+        ========================================================== */
+
         .modal {
-            animation: fadeInScale 0.2s ease-out forwards;
+            animation:
+                fadeInScale
+                0.2s
+                ease-out
+                forwards;
         }
+
+
         @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
         }
+
     </style>
 </head>
 
+
 <body class="bg-black text-white font-sans">
 
-    <!-- NAV -->
-    <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <nav
+        class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/10"
+    >
+
+        <div
+            class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between"
+        >
+
+            <!-- LOGO -->
+
             <div class="flex items-center gap-4">
-                <img src="images/btcw.svg" class="w-9 h-9" alt="BTCW">
-                <span class="text-2xl font-bold tracking-tighter">BitcoinPoW</span>
+
+                <img
+                    src="images/btcw.svg"
+                    class="w-9 h-9"
+                    alt="BTCW"
+                >
+
+                <span
+                    class="text-2xl font-bold tracking-tighter"
+                >
+                    BitcoinPoW
+                </span>
+
             </div>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-10 text-sm font-medium">
-                <a href="#vision" class="hover:text-amber-400 transition">Vision</a>
-                <a href="#technology" class="hover:text-amber-400 transition">Technology & Benefits</a>
-                <a href="#downloads" class="hover:text-amber-400 transition">Downloads</a>
-                <a href="https://donations.bitcoinpow.org" target="_blank" rel="noopener noreferrer"
-                   class="hover:text-amber-400 transition flex items-center gap-1">
-                    Donations <span class="text-xs">↗</span>
+
+
+            <!-- DESKTOP MENU -->
+
+            <div
+                class="hidden md:flex items-center gap-10 text-sm font-medium"
+            >
+
+                <a
+                    href="#vision"
+                    class="hover:text-amber-400 transition"
+                >
+                    Vision
                 </a>
+
+
+                <a
+                    href="#technology"
+                    class="hover:text-amber-400 transition"
+                >
+                    Technology & Benefits
+                </a>
+
+
+                <a
+                    href="#downloads"
+                    class="hover:text-amber-400 transition"
+                >
+                    Downloads
+                </a>
+
+
+                <a
+                    href="https://donations.bitcoinpow.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-amber-400 transition flex items-center gap-1"
+                >
+
+                    Donations
+
+                    <span class="text-xs">
+                        ↗
+                    </span>
+
+                </a>
+
             </div>
-            
-            <!-- Buttons -->
-            <div class="hidden md:flex items-center gap-4">
-                <a href="https://www.btcw.space" target="_blank" rel="noopener noreferrer"
-                   class="px-6 py-3 border border-white/60 hover:border-amber-400 rounded-2xl transition-all flex items-center gap-2 text-sm">
+
+
+            <!-- DESKTOP BUTTONS -->
+
+            <div
+                class="hidden md:flex items-center gap-4"
+            >
+
+                <!-- EXPLORER -->
+
+                <button
+                    onclick="showExplorerModal()"
+                    class="px-6 py-3 border border-white/60 hover:border-amber-400 rounded-2xl transition-all flex items-center gap-2 text-sm"
+                >
+
                     <i class="fas fa-chart-simple"></i>
+
                     Explorer
-                </a>
-                <!-- Buy Button now opens popup -->
-                <button onclick="showBuyModal()"
-                   class="px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl hover:scale-105 transition-all flex items-center gap-2">
-                    <i class="fas fa-shopping-cart"></i>
-                    Buy BTCW
+
                 </button>
+
+
+                <!-- BUY BTCW -->
+
+                <button
+                    onclick="showBuyModal()"
+                    class="px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl hover:scale-105 transition-all flex items-center gap-2"
+                >
+
+                    <i class="fas fa-shopping-cart"></i>
+
+                    Buy BTCW
+
+                </button>
+
             </div>
-            
-            <!-- Mobile Hamburger -->
-            <button id="menu-btn" class="md:hidden text-3xl">
+
+
+            <!-- MOBILE MENU BUTTON -->
+
+            <button
+                id="menu-btn"
+                class="md:hidden text-3xl"
+                aria-label="Open menu"
+            >
+
                 <i class="fas fa-bars"></i>
+
             </button>
+
         </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mobile-menu bg-black/95 border-t border-white/10">
-            <div class="px-6 py-8 flex flex-col gap-6 text-lg">
-                <a href="#vision" class="hover:text-amber-400">Vision</a>
-                <a href="#technology" class="hover:text-amber-400">Technology & Benefits</a>
-                <a href="#downloads" class="hover:text-amber-400">Downloads</a>
-                <a href="https://donations.bitcoinpow.org" target="_blank" rel="noopener noreferrer"
-                   class="hover:text-amber-400 flex items-center gap-2">
-                    Donations <span class="text-xs">↗</span>
+
+
+        <!-- =====================================================
+             MOBILE MENU
+        ====================================================== -->
+
+        <div
+            id="mobile-menu"
+            class="hidden md:hidden bg-black/95 border-t border-white/10"
+        >
+
+            <div
+                class="px-6 py-8 flex flex-col gap-6 text-lg"
+            >
+
+                <a
+                    href="#vision"
+                    class="hover:text-amber-400"
+                >
+                    Vision
                 </a>
-                
-                <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
-                    <a href="https://www.btcw.space" target="_blank" rel="noopener noreferrer"
-                       class="flex items-center gap-3 px-6 py-4 border border-white/60 rounded-2xl">
-                        <i class="fas fa-chart-simple"></i> Explorer
-                    </a>
-                    <!-- Mobile Buy Button now opens popup -->
-                    <button onclick="showBuyModal(); document.getElementById('mobile-menu').classList.add('hidden');"
-                       class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl">
-                        <i class="fas fa-shopping-cart"></i> Buy BTCW
+
+
+                <a
+                    href="#technology"
+                    class="hover:text-amber-400"
+                >
+                    Technology & Benefits
+                </a>
+
+
+                <a
+                    href="#downloads"
+                    class="hover:text-amber-400"
+                >
+                    Downloads
+                </a>
+
+
+                <a
+                    href="https://donations.bitcoinpow.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:text-amber-400 flex items-center gap-2"
+                >
+
+                    Donations
+
+                    <span class="text-xs">
+                        ↗
+                    </span>
+
+                </a>
+
+
+                <div
+                    class="pt-6 border-t border-white/10 flex flex-col gap-4"
+                >
+
+                    <!-- MOBILE EXPLORER -->
+
+                    <button
+                        onclick="showExplorerModal(); closeMobileMenu();"
+                        class="flex items-center gap-3 px-6 py-4 border border-white/60 rounded-2xl"
+                    >
+
+                        <i class="fas fa-chart-simple"></i>
+
+                        Explorer
+
                     </button>
+
+
+                    <!-- MOBILE BUY -->
+
+                    <button
+                        onclick="showBuyModal(); closeMobileMenu();"
+                        class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl"
+                    >
+
+                        <i class="fas fa-shopping-cart"></i>
+
+                        Buy BTCW
+
+                    </button>
+
                 </div>
+
             </div>
+
         </div>
+
     </nav>
 
-    <!-- HERO -->
-    <section class="hero-bg min-h-screen flex items-center relative overflow-hidden pt-16">
+
+    <!-- =========================================================
+         HERO
+    ========================================================== -->
+
+    <section
+        class="hero-bg min-h-screen flex items-center relative overflow-hidden pt-16"
+    >
+
         <canvas id="particles"></canvas>
-        
-        <div class="content max-w-7xl mx-auto px-6 pt-12 md:pt-20 grid lg:grid-cols-12 gap-12 items-center relative z-10">
+
+
+        <div
+            class="content max-w-7xl mx-auto px-6 pt-12 md:pt-20 grid lg:grid-cols-12 gap-12 items-center relative z-10"
+        >
+
+            <!-- HERO TEXT -->
+
             <div class="lg:col-span-7">
-                <div class="inline-flex items-center gap-3 px-5 py-2 bg-white/5 rounded-3xl border border-amber-400/30 mb-8 text-sm">
-                    <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
+
+                <div
+                    class="inline-flex items-center gap-3 px-5 py-2 bg-white/5 rounded-3xl border border-amber-400/30 mb-8 text-sm"
+                >
+
+                    <span
+                        class="relative flex h-3 w-3"
+                    >
+
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"
+                        >
+                        </span>
+
+
+                        <span
+                            class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"
+                        >
+                        </span>
+
                     </span>
-                    <span class="text-amber-400 font-medium">LIVE • Mainnet Active</span>
+
+
+                    <span
+                        class="text-amber-400 font-medium"
+                    >
+
+                        LIVE • Mainnet Active
+
+                    </span>
+
                 </div>
-                
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter">
-                    The Bitcoin<br>that Satoshi<br><span class="btc-gradient">Dreamed Of</span>
+
+
+                <h1
+                    class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter"
+                >
+
+                    The Bitcoin<br>
+
+                    that Satoshi<br>
+
+                    <span class="btc-gradient">
+                        Dreamed Of
+                    </span>
+
                 </h1>
-                
-                <p class="mt-8 text-lg md:text-xl lg:text-2xl text-gray-300">
+
+
+                <p
+                    class="mt-8 text-lg md:text-xl lg:text-2xl text-gray-300"
+                >
+
                     Proof-of-Work + Proof-of-Transactions.<br>
+
                     Mining pools eliminated. One node = one vote.
+
                 </p>
-                
-                <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4">
-                    <a href="#downloads" 
-                       class="px-8 py-5 text-lg font-semibold bg-white text-black rounded-3xl hover:bg-amber-400 transition-all text-center">
+
+
+                <div
+                    class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4"
+                >
+
+                    <a
+                        href="#downloads"
+                        class="px-8 py-5 text-lg font-semibold bg-white text-black rounded-3xl hover:bg-amber-400 transition-all text-center"
+                    >
+
                         Download Wallet
+
                     </a>
-                    <a href="https://github.com/bitcoinpow-organization/BitcoinPoW/blob/26.x_btcw/README.md" target="_blank" rel="noopener noreferrer"
-                       class="px-8 py-5 text-lg font-medium border border-white/60 hover:border-white rounded-3xl transition-all text-center">
+
+
+                    <a
+                        href="https://github.com/bitcoinpow-organization/BitcoinPoW/blob/26.x_btcw/README.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="px-8 py-5 text-lg font-medium border border-white/60 hover:border-white rounded-3xl transition-all text-center"
+                    >
+
                         Read Whitepaper →
+
                     </a>
+
                 </div>
+
             </div>
-            
-            <div class="lg:col-span-5 flex justify-center mt-12 lg:mt-0">
-                <img src="images/btcw.svg" alt="BitcoinPoW" 
-                     class="w-full max-w-sm md:max-w-md neon-glow rounded-[3rem] p-6">
+
+
+            <!-- HERO LOGO -->
+
+            <div
+                class="lg:col-span-5 flex justify-center mt-12 lg:mt-0"
+            >
+
+                <img
+                    src="images/btcw.svg"
+                    alt="BitcoinPoW"
+                    class="w-full max-w-sm md:max-w-md neon-glow rounded-[3rem] p-6"
+                >
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- VISION -->
-    <section id="vision" class="py-20 md:py-28 bg-zinc-950">
-        <div class="max-w-5xl mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+
+    <!-- =========================================================
+         VISION
+    ========================================================== -->
+
+    <section
+        id="vision"
+        class="py-20 md:py-28 bg-zinc-950"
+    >
+
+        <div
+            class="max-w-5xl mx-auto px-6 text-center"
+        >
+
+            <h2
+                class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+            >
+
                 Satoshi wanted mining to be truly decentralized<br>
-                <span class="text-amber-400">We eliminated mining pools forever</span>
+
+                <span class="text-amber-400">
+
+                    We eliminated mining pools forever
+
+                </span>
+
             </h2>
+
         </div>
+
     </section>
 
-    <!-- TECHNOLOGY & BENEFITS -->
-    <section id="technology" class="py-20 md:py-28">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 md:mb-20">Advanced Consensus Engine</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-                    <div class="text-amber-400 text-5xl mb-6">⚡</div>
-                    <h3 class="text-2xl font-semibold mb-4">Proof of Transactions (PoT)</h3>
-                    <p class="text-gray-400">Your wallet performs real work by hashing your own UTXOs.</p>
+
+    <!-- =========================================================
+         TECHNOLOGY & BENEFITS
+    ========================================================== -->
+
+    <section
+        id="technology"
+        class="py-20 md:py-28"
+    >
+
+        <div
+            class="max-w-7xl mx-auto px-6"
+        >
+
+            <h2
+                class="text-4xl md:text-5xl font-bold text-center mb-12 md:mb-20"
+            >
+
+                Advanced Consensus Engine
+
+            </h2>
+
+
+            <div
+                class="grid md:grid-cols-3 gap-8"
+            >
+
+                <!-- CARD 1 -->
+
+                <div
+                    class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all"
+                >
+
+                    <div
+                        class="text-amber-400 text-5xl mb-6"
+                    >
+                        ⚡
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-semibold mb-4"
+                    >
+
+                        Proof of Transactions (PoT)
+
+                    </h3>
+
+
+                    <p
+                        class="text-gray-400"
+                    >
+
+                        Your wallet performs real work by hashing your own UTXOs.
+
+                    </p>
+
                 </div>
-                <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-                    <div class="text-amber-400 text-5xl mb-6">🔗</div>
-                    <h3 class="text-2xl font-semibold mb-4">No Mining Pools</h3>
-                    <p class="text-gray-400">Solo mining is enforced.</p>
+
+
+                <!-- CARD 2 -->
+
+                <div
+                    class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all"
+                >
+
+                    <div
+                        class="text-amber-400 text-5xl mb-6"
+                    >
+                        🔗
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-semibold mb-4"
+                    >
+
+                        No Mining Pools
+
+                    </h3>
+
+
+                    <p
+                        class="text-gray-400"
+                    >
+
+                        Solo mining is enforced.
+
+                    </p>
+
                 </div>
-                <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-                    <div class="text-amber-400 text-5xl mb-6">⚖️</div>
-                    <h3 class="text-2xl font-semibold mb-4">Perfectly Fair</h3>
-                    <p class="text-gray-400">All UTXOs treated equally.</p>
+
+
+                <!-- CARD 3 -->
+
+                <div
+                    class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all"
+                >
+
+                    <div
+                        class="text-amber-400 text-5xl mb-6"
+                    >
+                        ⚖️
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-semibold mb-4"
+                    >
+
+                        Perfectly Fair
+
+                    </h3>
+
+
+                    <p
+                        class="text-gray-400"
+                    >
+
+                        All UTXOs treated equally.
+
+                    </p>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- DOWNLOADS -->
-    <section id="downloads" class="py-20 md:py-28 bg-gradient-to-b from-transparent via-amber-900/10 to-transparent">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-5xl font-bold mb-6">Download BitcoinPoW</h2>
-            <p class="text-gray-400 text-lg mb-12">Full nodes for Windows, Linux & macOS • v26.6.1 Unified</p>
-            
-            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-win64.zip" 
-                   target="_blank" rel="noopener noreferrer"
-                   class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-                    <img src="images/windows-logo.png" class="w-16 mx-auto mb-6">
-                    <h3 class="text-2xl font-bold">Windows</h3>
+
+    <!-- =========================================================
+         DOWNLOADS
+    ========================================================== -->
+
+    <section
+        id="downloads"
+        class="py-20 md:py-28 bg-gradient-to-b from-transparent via-amber-900/10 to-transparent"
+    >
+
+        <div
+            class="max-w-7xl mx-auto px-6 text-center"
+        >
+
+            <h2
+                class="text-4xl md:text-5xl font-bold mb-6"
+            >
+
+                Download BitcoinPoW
+
+            </h2>
+
+
+            <p
+                class="text-gray-400 text-lg mb-12"
+            >
+
+                Full nodes for Windows, Linux & macOS • v26.6.1 Unified
+
+            </p>
+
+
+            <div
+                class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            >
+
+                <!-- WINDOWS -->
+
+                <a
+                    href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-win64.zip"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center"
+                >
+
+                    <img
+                        src="images/windows-logo.png"
+                        class="w-16 mx-auto mb-6"
+                        alt="Windows"
+                    >
+
+
+                    <h3
+                        class="text-2xl font-bold"
+                    >
+
+                        Windows
+
+                    </h3>
+
                 </a>
-                
-                <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-x86_64-linux-gnu.tar.gz" 
-                   target="_blank" rel="noopener noreferrer"
-                   class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-                    <img src="images/linux-logo.png" class="w-16 mx-auto mb-6">
-                    <h3 class="text-2xl font-bold">Linux</h3>
+
+
+                <!-- LINUX -->
+
+                <a
+                    href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-x86_64-linux-gnu.tar.gz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center"
+                >
+
+                    <img
+                        src="images/linux-logo.png"
+                        class="w-16 mx-auto mb-6"
+                        alt="Linux"
+                    >
+
+
+                    <h3
+                        class="text-2xl font-bold"
+                    >
+
+                        Linux
+
+                    </h3>
+
                 </a>
-                
-                <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-arm64-apple-darwin.zip" 
-                   target="_blank" rel="noopener noreferrer"
-                   class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-                    <img src="images/apple.png" class="w-16 mx-auto mb-6">
-                    <h3 class="text-2xl font-bold">macOS</h3>
+
+
+                <!-- MACOS -->
+
+                <a
+                    href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-arm64-apple-darwin.zip"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center"
+                >
+
+                    <img
+                        src="images/apple.png"
+                        class="w-16 mx-auto mb-6"
+                        alt="macOS"
+                    >
+
+
+                    <h3
+                        class="text-2xl font-bold"
+                    >
+
+                        macOS
+
+                    </h3>
+
                 </a>
+
             </div>
+
         </div>
+
     </section>
 
-    <!-- CENTERED FOOTER -->
-    <footer class="bg-black py-16 border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col items-center gap-8 text-center">
-                <div class="flex items-center gap-4">
-                    <img src="images/btcw.svg" class="w-10 h-10" alt="BitcoinPoW Logo">
-                    <span class="text-2xl font-bold">BitcoinPoW</span>
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="bg-black py-16 border-t border-white/10"
+    >
+
+        <div
+            class="max-w-7xl mx-auto px-6"
+        >
+
+            <div
+                class="flex flex-col items-center gap-8 text-center"
+            >
+
+                <!-- FOOTER LOGO -->
+
+                <div
+                    class="flex items-center gap-4"
+                >
+
+                    <img
+                        src="images/btcw.svg"
+                        class="w-10 h-10"
+                        alt="BitcoinPoW Logo"
+                    >
+
+
+                    <span
+                        class="text-2xl font-bold"
+                    >
+
+                        BitcoinPoW
+
+                    </span>
+
                 </div>
-                
-                <div class="flex gap-6 text-2xl">
-                    <a href="https://x.com/bitcoin_pow" target="_blank" rel="noopener noreferrer" 
-                       class="hover:text-amber-400 transition-colors">
+
+
+                <!-- SOCIAL LINKS -->
+
+                <div
+                    class="flex gap-6 text-2xl"
+                >
+
+                    <!-- X -->
+
+                    <a
+                        href="https://x.com/bitcoin_pow"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-amber-400 transition-colors"
+                        aria-label="BitcoinPoW on X"
+                    >
+
                         <i class="fab fa-x-twitter"></i>
+
                     </a>
-                    <a href="https://t.me/BitcoinPoWPoT" target="_blank" rel="noopener noreferrer" 
-                       class="hover:text-amber-400 transition-colors">
+
+
+                    <!-- TELEGRAM -->
+
+                    <a
+                        href="https://t.me/BitcoinPoWPoT"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-amber-400 transition-colors"
+                        aria-label="BitcoinPoW Telegram"
+                    >
+
                         <i class="fab fa-telegram"></i>
+
                     </a>
-                    <a href="https://github.com/btcw-space/BitcoinPoW" target="_blank" rel="noopener noreferrer" 
-                       class="hover:text-amber-400 transition-colors">
+
+
+                    <!-- GITHUB -->
+
+                    <a
+                        href="https://github.com/btcw-space/BitcoinPoW"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-amber-400 transition-colors"
+                        aria-label="BitcoinPoW GitHub"
+                    >
+
                         <i class="fab fa-github"></i>
+
                     </a>
-                    <a href="https://discord.gg/eg9yhg5Xs" target="_blank" rel="noopener noreferrer" 
-                       class="hover:text-amber-400 transition-colors">
+
+
+                    <!-- DISCORD -->
+
+                    <a
+                        href="https://discord.gg/eg9yhg5Xs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="hover:text-amber-400 transition-colors"
+                        aria-label="BitcoinPoW Discord"
+                    >
+
                         <i class="fab fa-discord"></i>
+
                     </a>
+
                 </div>
-                
-                <p class="text-gray-500 text-sm">© 2026 BitcoinPoW • All Rights Reserved</p>
+
+
+                <p
+                    class="text-gray-500 text-sm"
+                >
+
+                    © 2026 BitcoinPoW • All Rights Reserved
+
+                </p>
+
             </div>
+
         </div>
+
     </footer>
 
-    <!-- BUY MODAL / POPUP -->
-    <div id="buy-modal" onclick="if (event.target.id === 'buy-modal') hideBuyModal()" 
-         class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100]">
-        <div onclick="event.stopImmediatePropagation()" 
-             class="modal glass max-w-md w-full mx-4 p-8 rounded-3xl border border-white/20">
-            
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold">Buy BTCW</h3>
-                <button onclick="hideBuyModal()" class="text-2xl text-gray-400 hover:text-white">×</button>
+
+    <!-- =========================================================
+         EXPLORER MODAL
+    ========================================================== -->
+
+    <div
+        id="explorer-modal"
+        onclick="if (event.target.id === 'explorer-modal') hideExplorerModal()"
+        class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4"
+    >
+
+        <div
+            onclick="event.stopImmediatePropagation()"
+            class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20"
+        >
+
+            <!-- MODAL HEADER -->
+
+            <div
+                class="flex justify-between items-center mb-6"
+            >
+
+                <h3
+                    class="text-2xl font-bold"
+                >
+
+                    Choose Explorer
+
+                </h3>
+
+
+                <button
+                    onclick="hideExplorerModal()"
+                    class="text-2xl text-gray-400 hover:text-white"
+                    aria-label="Close explorer menu"
+                >
+
+                    ×
+
+                </button>
+
             </div>
-            
-            <p class="text-gray-400 mb-6 text-sm">Choose your preferred exchange:</p>
-            
-            <div class="space-y-4">
-                <!-- Dex-Trade -->
-                <a href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic" 
-                   target="_blank" rel="noopener noreferrer"
-                   class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-                    <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-chart-line text-black text-2xl"></i>
+
+
+            <p
+                class="text-gray-400 mb-6 text-sm"
+            >
+
+                Choose your preferred BitcoinPoW blockchain explorer:
+
+            </p>
+
+
+            <div
+                class="space-y-4"
+            >
+
+                <!-- =================================================
+                     EXPLORER 1
+                ================================================== -->
+
+                <a
+                    href="https://www.btcw.space"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5"
+                >
+
+                    <!-- BTCW LOGO -->
+
+                    <div
+                        class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
+                    >
+
+                        <img
+                            src="images/btcw.svg"
+                            alt="BTCW"
+                            class="w-full h-full object-contain"
+                        >
+
                     </div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg group-hover:text-amber-400 transition">Dex-Trade</div>
-                        <div class="text-sm text-gray-400">BTCW / USDT • Spot Trading</div>
+
+
+                    <!-- TEXT -->
+
+                    <div
+                        class="flex-1"
+                    >
+
+                        <div
+                            class="font-semibold text-lg group-hover:text-amber-400 transition"
+                        >
+
+                            Explorer 1
+
+                        </div>
+
+
+                        <div
+                            class="text-sm text-gray-400"
+                        >
+
+                            btcw.space
+
+                        </div>
+
                     </div>
-                    <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+
+                    <!-- EXTERNAL ICON -->
+
+                    <i
+                        class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"
+                    >
+                    </i>
+
                 </a>
-                
-                <!-- EADX Exchange -->
-                <a href="https://eadxexchange.com/trade/BTCW-USDT" 
-                   target="_blank" rel="noopener noreferrer"
-                   class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-globe text-white text-2xl"></i>
+
+
+                <!-- =================================================
+                     EXPLORER 2
+                ================================================== -->
+
+                <a
+                    href="https://btcw-explorer.space"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5"
+                >
+
+                    <!-- BTCW LOGO -->
+
+                    <div
+                        class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden"
+                    >
+
+                        <img
+                            src="images/btcw.svg"
+                            alt="BTCW"
+                            class="w-full h-full object-contain"
+                        >
+
                     </div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg group-hover:text-amber-400 transition">EADX Exchange</div>
-                        <div class="text-sm text-gray-400">BTCW / USDT • Spot Trading</div>
+
+
+                    <!-- TEXT -->
+
+                    <div
+                        class="flex-1"
+                    >
+
+                        <div
+                            class="font-semibold text-lg group-hover:text-amber-400 transition"
+                        >
+
+                            Explorer 2
+
+                        </div>
+
+
+                        <div
+                            class="text-sm text-gray-400"
+                        >
+
+                            btcw-explorer.space
+
+                        </div>
+
                     </div>
-                    <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+
+                    <!-- EXTERNAL ICON -->
+
+                    <i
+                        class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"
+                    >
+                    </i>
+
                 </a>
+
             </div>
-            
-            <button onclick="hideBuyModal()" 
-                    class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
+
+
+            <!-- CANCEL -->
+
+            <button
+                onclick="hideExplorerModal()"
+                class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition"
+            >
+
                 Cancel
+
             </button>
+
         </div>
+
     </div>
 
-    <!-- PARTICLE SCRIPT + MODAL JS -->
+
+    <!-- =========================================================
+         BUY BTCW MODAL
+    ========================================================== -->
+
+    <div
+        id="buy-modal"
+        onclick="if (event.target.id === 'buy-modal') hideBuyModal()"
+        class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4"
+    >
+
+        <div
+            onclick="event.stopImmediatePropagation()"
+            class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20"
+        >
+
+            <!-- MODAL HEADER -->
+
+            <div
+                class="flex justify-between items-center mb-6"
+            >
+
+                <h3
+                    class="text-2xl font-bold"
+                >
+
+                    Buy BTCW
+
+                </h3>
+
+
+                <button
+                    onclick="hideBuyModal()"
+                    class="text-2xl text-gray-400 hover:text-white"
+                    aria-label="Close buy menu"
+                >
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <p
+                class="text-gray-400 mb-6 text-sm"
+            >
+
+                Choose your preferred exchange:
+
+            </p>
+
+
+            <div
+                class="space-y-4"
+            >
+
+                <!-- DEX-TRADE -->
+
+                <a
+                    href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5"
+                >
+
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0"
+                    >
+
+                        <i
+                            class="fas fa-chart-line text-black text-2xl"
+                        >
+                        </i>
+
+                    </div>
+
+
+                    <div
+                        class="flex-1"
+                    >
+
+                        <div
+                            class="font-semibold text-lg group-hover:text-amber-400 transition"
+                        >
+
+                            Dex-Trade
+
+                        </div>
+
+
+                        <div
+                            class="text-sm text-gray-400"
+                        >
+
+                            BTCW / USDT • Spot Trading
+
+                        </div>
+
+                    </div>
+
+
+                    <i
+                        class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"
+                    >
+                    </i>
+
+                </a>
+
+
+                <!-- EADX -->
+
+                <a
+                    href="https://eadxexchange.com/trade/BTCW-USDT"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5"
+                >
+
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0"
+                    >
+
+                        <i
+                            class="fas fa-globe text-white text-2xl"
+                        >
+                        </i>
+
+                    </div>
+
+
+                    <div
+                        class="flex-1"
+                    >
+
+                        <div
+                            class="font-semibold text-lg group-hover:text-amber-400 transition"
+                        >
+
+                            EADX Exchange
+
+                        </div>
+
+
+                        <div
+                            class="text-sm text-gray-400"
+                        >
+
+                            BTCW / USDT • Spot Trading
+
+                        </div>
+
+                    </div>
+
+
+                    <i
+                        class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"
+                    >
+                    </i>
+
+                </a>
+
+            </div>
+
+
+            <!-- CANCEL -->
+
+            <button
+                onclick="hideBuyModal()"
+                class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition"
+            >
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
     <script>
-        // Particle background (unchanged)
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
+
+        /* =========================================================
+           PARTICLE BACKGROUND
+        ========================================================== */
+
+        const canvas =
+            document.getElementById('particles');
+
+        const ctx =
+            canvas.getContext('2d');
+
         let particles = [];
-        let mouse = { x: 0, y: 0 };
+
+
+        let mouse = {
+            x: 0,
+            y: 0
+        };
+
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+
+            canvas.width =
+                window.innerWidth;
+
+            canvas.height =
+                window.innerHeight;
+
         }
+
 
         class Particle {
+
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3.5 + 1;
-                this.speedX = Math.random() * 0.6 - 0.3;
-                this.speedY = Math.random() * 0.6 - 0.3;
+
+                this.x =
+                    Math.random() *
+                    canvas.width;
+
+                this.y =
+                    Math.random() *
+                    canvas.height;
+
+                this.size =
+                    Math.random() * 3.5 + 1;
+
+                this.speedX =
+                    Math.random() * 0.6 - 0.3;
+
+                this.speedY =
+                    Math.random() * 0.6 - 0.3;
+
             }
+
+
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const distance = Math.sqrt(dx*dx + dy*dy);
+
+                this.x +=
+                    this.speedX;
+
+                this.y +=
+                    this.speedY;
+
+
+                const dx =
+                    mouse.x - this.x;
+
+                const dy =
+                    mouse.y - this.y;
+
+
+                const distance =
+                    Math.sqrt(
+                        dx * dx +
+                        dy * dy
+                    );
+
+
                 if (distance < 180) {
-                    this.speedX -= dx / 120;
-                    this.speedY -= dy / 120;
+
+                    this.speedX -=
+                        dx / 120;
+
+                    this.speedY -=
+                        dy / 120;
+
                 }
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+
+                if (
+                    this.x < 0 ||
+                    this.x > canvas.width
+                ) {
+
+                    this.speedX *= -1;
+
+                }
+
+
+                if (
+                    this.y < 0 ||
+                    this.y > canvas.height
+                ) {
+
+                    this.speedY *= -1;
+
+                }
+
             }
+
+
             draw() {
-                ctx.fillStyle = '#f7931a';
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = '#f7931a';
+
+                ctx.fillStyle =
+                    '#f7931a';
+
+                ctx.shadowBlur =
+                    20;
+
+                ctx.shadowColor =
+                    '#f7931a';
+
+
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+
+                ctx.arc(
+                    this.x,
+                    this.y,
+                    this.size,
+                    0,
+                    Math.PI * 2
+                );
+
+
                 ctx.fill();
+
             }
+
         }
+
 
         function initParticles() {
+
             particles = [];
-            for (let i = 0; i < 220; i++) particles.push(new Particle());
+
+
+            for (
+                let i = 0;
+                i < 220;
+                i++
+            ) {
+
+                particles.push(
+                    new Particle()
+                );
+
+            }
+
         }
+
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let p of particles) {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            for (
+                let p of particles
+            ) {
+
                 p.update();
                 p.draw();
+
             }
-            requestAnimationFrame(animate);
+
+
+            requestAnimationFrame(
+                animate
+            );
+
         }
 
-        window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
-        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+        window.addEventListener(
+            'resize',
+            () => {
+
+                resizeCanvas();
+                initParticles();
+
+            }
+        );
+
+
+        window.addEventListener(
+            'mousemove',
+            (e) => {
+
+                mouse.x =
+                    e.clientX;
+
+                mouse.y =
+                    e.clientY;
+
+            }
+        );
+
 
         resizeCanvas();
         initParticles();
         animate();
 
-        // Mobile Menu
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            menuBtn.innerHTML = mobileMenu.classList.contains('hidden') 
-                ? '<i class="fas fa-bars"></i>' 
-                : '<i class="fas fa-times"></i>';
-        });
 
-        // Buy Modal Functions
-        function showBuyModal() {
-            document.getElementById('buy-modal').classList.remove('hidden');
-            document.getElementById('buy-modal').classList.add('flex');
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const menuBtn =
+            document.getElementById(
+                'menu-btn'
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                'mobile-menu'
+            );
+
+
+        menuBtn.addEventListener(
+            'click',
+            () => {
+
+                mobileMenu.classList.toggle(
+                    'hidden'
+                );
+
+
+                menuBtn.innerHTML =
+                    mobileMenu.classList.contains(
+                        'hidden'
+                    )
+                        ? '<i class="fas fa-bars"></i>'
+                        : '<i class="fas fa-times"></i>';
+
+            }
+        );
+
+
+        function closeMobileMenu() {
+
+            mobileMenu.classList.add(
+                'hidden'
+            );
+
+
+            menuBtn.innerHTML =
+                '<i class="fas fa-bars"></i>';
+
         }
+
+
+        /* =========================================================
+           EXPLORER MODAL
+        ========================================================== */
+
+        function showExplorerModal() {
+
+            const modal =
+                document.getElementById(
+                    'explorer-modal'
+                );
+
+
+            modal.classList.remove(
+                'hidden'
+            );
+
+
+            modal.classList.add(
+                'flex'
+            );
+
+        }
+
+
+        function hideExplorerModal() {
+
+            const modal =
+                document.getElementById(
+                    'explorer-modal'
+                );
+
+
+            modal.classList.remove(
+                'flex'
+            );
+
+
+            modal.classList.add(
+                'hidden'
+            );
+
+        }
+
+
+        /* =========================================================
+           BUY MODAL
+        ========================================================== */
+
+        function showBuyModal() {
+
+            const modal =
+                document.getElementById(
+                    'buy-modal'
+                );
+
+
+            modal.classList.remove(
+                'hidden'
+            );
+
+
+            modal.classList.add(
+                'flex'
+            );
+
+        }
+
 
         function hideBuyModal() {
-            const modal = document.getElementById('buy-modal');
-            modal.classList.remove('flex');
-            modal.classList.add('hidden');
+
+            const modal =
+                document.getElementById(
+                    'buy-modal'
+                );
+
+
+            modal.classList.remove(
+                'flex'
+            );
+
+
+            modal.classList.add(
+                'hidden'
+            );
+
         }
 
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape") {
-                const modal = document.getElementById('buy-modal');
-                if (!modal.classList.contains('hidden')) {
-                    hideBuyModal();
+
+        /* =========================================================
+           ESCAPE KEY
+        ========================================================== */
+
+        document.addEventListener(
+            'keydown',
+            function(e) {
+
+                if (e.key === "Escape") {
+
+                    const buyModal =
+                        document.getElementById(
+                            'buy-modal'
+                        );
+
+
+                    const explorerModal =
+                        document.getElementById(
+                            'explorer-modal'
+                        );
+
+
+                    if (
+                        !buyModal.classList.contains(
+                            'hidden'
+                        )
+                    ) {
+
+                        hideBuyModal();
+
+                    }
+
+
+                    if (
+                        !explorerModal.classList.contains(
+                            'hidden'
+                        )
+                    ) {
+
+                        hideExplorerModal();
+
+                    }
+
                 }
+
             }
-        });
+        );
+
     </script>
+
 </body>
+
 </html>
