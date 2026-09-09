@@ -113,7 +113,7 @@
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
           </span>
-          <span class="text-amber-400 font-medium">LIVE • Mainnet Active • Block 140,510+</span>
+          <span id="network-live" class="text-amber-400 font-medium">LIVE • Mainnet Active • Block —</span>
         </div>
 
         <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter">
@@ -156,49 +156,57 @@
         <div>
           <h2 class="text-4xl md:text-5xl font-bold">The Chain, Live</h2>
         </div>
-        <a href="https://explorer.bitcoinpow.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium">
-          Open full explorer <i class="fas fa-arrow-right text-sm"></i>
-        </a>
+        <div class="flex flex-col items-start md:items-end gap-2">
+          <a href="https://explorer.bitcoinpow.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium">
+            Open full explorer <i class="fas fa-arrow-right text-sm"></i>
+          </a>
+          <div class="flex items-center gap-2 text-xs text-gray-500">
+            <span id="live-dot" class="inline-block w-2 h-2 rounded-full bg-gray-600"></span>
+            <span id="live-status">Connecting to BTCW explorer…</span>
+            <span>•</span>
+            <span id="live-updated">—</span>
+          </div>
+        </div>
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">140,510</div>
+          <div id="stat-height" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Block Height</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">557.55K</div>
+          <div id="stat-difficulty" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Difficulty</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">4,466 GH/s</div>
+          <div id="stat-hashrate" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Hashrate</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">598s</div>
+          <div id="stat-blocktime" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Avg Block Time</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">28.3 GB</div>
+          <div id="stat-chainsize" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Chain Size</div>
         </div>
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold text-amber-400">62</div>
+          <div id="stat-miners" class="text-2xl md:text-3xl font-bold text-amber-400">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Active Miners (24h)</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold">4.27M</div>
+          <div id="stat-addresses" class="text-2xl md:text-3xl font-bold">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Total Addresses</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold">7.04M BTCW</div>
+          <div id="stat-supply" class="text-2xl md:text-3xl font-bold">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">Tracked Supply</div>
         </div>
         <div class="glass p-6 rounded-2xl text-center">
-          <div class="text-2xl md:text-3xl font-bold">1.0M BTCW</div>
+          <div id="stat-volume" class="text-2xl md:text-3xl font-bold">—</div>
           <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">30-Day Volume</div>
         </div>
       </div>
@@ -366,6 +374,192 @@
   </div>
 
   <script>
+    /*
+      LIVE BTCW EXPLORER INTEGRATION
+      --------------------------------
+      The dashboard is no longer populated with fixed blockchain numbers.
+      It polls the BTCW Explorer API and updates the visible statistics.
+
+      The adapter intentionally supports several common response shapes so the
+      page can stay compatible if the explorer returns either a flat JSON object
+      or a nested "data/stats/network" object.
+
+      If your explorer deployment uses different endpoint names, change only
+      EXPLORER_API_ENDPOINTS below; the rest of the page does not need editing.
+    */
+    const EXPLORER_API_ENDPOINTS = [
+      "https://btcw.space/api/stats",
+      "https://btcw.space/api/network",
+      "https://btcw.space/api/info"
+    ];
+
+    const REFRESH_MS = 30000;
+
+    const $ = (id) => document.getElementById(id);
+
+    function firstDefined(...values) {
+      return values.find(v => v !== undefined && v !== null && v !== "");
+    }
+
+    function asNumber(value) {
+      if (typeof value === "number") return value;
+      if (typeof value !== "string") return null;
+      const cleaned = value.replace(/,/g, "").trim();
+      const match = cleaned.match(/-?[0-9]+(?:\\.[0-9]+)?/);
+      return match ? Number(match[0]) : null;
+    }
+
+    function formatCompact(value) {
+      const n = asNumber(value);
+      if (n === null) return value ?? "—";
+      if (Math.abs(n) >= 1e9) return (n / 1e9).toFixed(2) + "B";
+      if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(2) + "M";
+      if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(2) + "K";
+      return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    function formatHashrate(value) {
+      const n = asNumber(value);
+      if (n === null) return value ?? "—";
+      // Explorer APIs commonly return hashes/sec.
+      if (n >= 1e12) return (n / 1e12).toFixed(2) + " TH/s";
+      if (n >= 1e9) return (n / 1e9).toFixed(2) + " GH/s";
+      if (n >= 1e6) return (n / 1e6).toFixed(2) + " MH/s";
+      return n.toLocaleString(undefined, { maximumFractionDigits: 2 }) + " H/s";
+    }
+
+    function unwrap(payload) {
+      if (!payload || typeof payload !== "object") return {};
+      return payload.data || payload.stats || payload.network || payload;
+    }
+
+    function getField(o, keys) {
+      for (const key of keys) {
+        if (o && Object.prototype.hasOwnProperty.call(o, key)) return o[key];
+      }
+      return undefined;
+    }
+
+    function setStat(id, value) {
+      const el = $(id);
+      if (el && value !== undefined && value !== null && value !== "") el.textContent = value;
+    }
+
+    function normalizeStats(payload) {
+      const o = unwrap(payload);
+
+      const height = firstDefined(
+        getField(o, ["block_height", "blockHeight", "height", "blocks"]),
+        getField(payload, ["block_height", "blockHeight", "height", "blocks"])
+      );
+
+      const difficulty = firstDefined(
+        getField(o, ["difficulty", "current_difficulty"]),
+        getField(payload, ["difficulty", "current_difficulty"])
+      );
+
+      const hashrate = firstDefined(
+        getField(o, ["hashrate", "network_hashrate", "networkHashrate", "hash_rate"]),
+        getField(payload, ["hashrate", "network_hashrate", "networkHashrate", "hash_rate"])
+      );
+
+      const blockTime = firstDefined(
+        getField(o, ["avg_block_time", "average_block_time", "avgBlockTime", "block_time"]),
+        getField(payload, ["avg_block_time", "average_block_time", "avgBlockTime", "block_time"])
+      );
+
+      const chainSize = firstDefined(
+        getField(o, ["chain_size", "chainSize", "blockchain_size", "size"]),
+        getField(payload, ["chain_size", "chainSize", "blockchain_size", "size"])
+      );
+
+      const miners = firstDefined(
+        getField(o, ["active_miners", "activeMiners", "miners"]),
+        getField(payload, ["active_miners", "activeMiners", "miners"])
+      );
+
+      const addresses = firstDefined(
+        getField(o, ["total_addresses", "totalAddresses", "addresses"]),
+        getField(payload, ["total_addresses", "totalAddresses", "addresses"])
+      );
+
+      const supply = firstDefined(
+        getField(o, ["tracked_supply", "trackedSupply", "supply", "money_supply"]),
+        getField(payload, ["tracked_supply", "trackedSupply", "supply", "money_supply"])
+      );
+
+      const volume = firstDefined(
+        getField(o, ["volume_30d", "volume30d", "thirty_day_volume", "volume"]),
+        getField(payload, ["volume_30d", "volume30d", "thirty_day_volume", "volume"])
+      );
+
+      return { height, difficulty, hashrate, blockTime, chainSize, miners, addresses, supply, volume };
+    }
+
+    async function fetchExplorerStats() {
+      let lastError = null;
+
+      for (const endpoint of EXPLORER_API_ENDPOINTS) {
+        try {
+          const response = await fetch(endpoint, {
+            method: "GET",
+            cache: "no-store",
+            headers: { "Accept": "application/json" }
+          });
+
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+
+          const payload = await response.json();
+          const stats = normalizeStats(payload);
+
+          // Accept only a response that actually contains blockchain data.
+          if (stats.height !== undefined || stats.difficulty !== undefined || stats.hashrate !== undefined) {
+            return stats;
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("No compatible BTCW explorer API endpoint responded.");
+    }
+
+    function updateLiveStatus(online, message) {
+      const dot = $("live-dot");
+      const status = $("live-status");
+      if (dot) dot.className = "inline-block w-2 h-2 rounded-full " + (online ? "bg-green-400" : "bg-red-500");
+      if (status) status.textContent = message;
+    }
+
+    async function updateBlockchainStats() {
+      try {
+        const s = await fetchExplorerStats();
+
+        setStat("stat-height", formatCompact(s.height));
+        setStat("stat-difficulty", formatCompact(s.difficulty));
+        setStat("stat-hashrate", formatHashrate(s.hashrate));
+        setStat("stat-blocktime", s.blockTime !== undefined ? `${formatCompact(s.blockTime)}s` : "—");
+        setStat("stat-chainsize", s.chainSize !== undefined ? `${formatCompact(s.chainSize)} GB` : "—");
+        setStat("stat-miners", formatCompact(s.miners));
+        setStat("stat-addresses", formatCompact(s.addresses));
+        setStat("stat-supply", s.supply !== undefined ? `${formatCompact(s.supply)} BTCW` : "—");
+        setStat("stat-volume", s.volume !== undefined ? `${formatCompact(s.volume)} BTCW` : "—");
+
+        const h = asNumber(s.height);
+        $("network-live").textContent = `LIVE • Mainnet Active • Block ${h !== null ? h.toLocaleString() : "—"}`;
+
+        updateLiveStatus(true, "Live from BTCW explorer");
+        $("live-updated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
+      } catch (error) {
+        console.warn("BTCW explorer integration error:", error);
+        updateLiveStatus(false, "Explorer data unavailable");
+        $("live-updated").textContent = "Retrying…";
+      }
+    }
+
+    updateBlockchainStats();
+    setInterval(updateBlockchainStats, REFRESH_MS);
+
     // Blockchain network background — fixed nodes, blinking to feel "live"
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
