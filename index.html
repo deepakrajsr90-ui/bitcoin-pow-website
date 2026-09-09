@@ -377,186 +377,235 @@
     /*
       LIVE BTCW EXPLORER INTEGRATION
       --------------------------------
-      The dashboard is no longer populated with fixed blockchain numbers.
-      It polls the BTCW Explorer API and updates the visible statistics.
+      Data source: https://btcw-explorer.space/info
 
-      The adapter intentionally supports several common response shapes so the
-      page can stay compatible if the explorer returns either a flat JSON object
-      or a nested "data/stats/network" object.
+      The previous code queried endpoints under btcw.space/api/*, which are not
+      the public API documented by the current BTCW explorer. This adapter uses
+      the documented btcw-explorer.space endpoints directly.
 
-      If your explorer deployment uses different endpoint names, change only
-      EXPLORER_API_ENDPOINTS below; the rest of the page does not need editing.
+      Available live values from the explorer:
+        - Block height
+        - Difficulty
+        - Network hashrate
+        - Circulating / money supply
+        - Network connections
+        - Masternode count
+        - BTC/USD price when available
+
+      Some dashboard fields (30-day volume, total addresses and active miners)
+      are not provided by the documented API, so they are shown as "N/A" rather
+      than displaying incorrect or fabricated values.
     */
-    const EXPLORER_API_ENDPOINTS = [
-      "https://btcw.space/api/stats",
-      "https://btcw.space/api/network",
-      "https://btcw.space/api/info"
-    ];
 
+    const EXPLORER_BASE = "https://btcw-explorer.space";
     const REFRESH_MS = 30000;
 
     const $ = (id) => document.getElementById(id);
 
-    function firstDefined(...values) {
-      return values.find(v => v !== undefined && v !== null && v !== "");
+    function asNumber(value) {
+      if (typeof value === "number" && Number.isFinite(value)) return value;
+      if (typeof value !== "string") return null;
+
+      const cleaned = value.replace(/,/g, "").trim();
+      const match = cleaned.match(/-?[0-9]+(?:\.[0-9]+)?/);
+      return match ? Number(match[0]) : null;
     }
 
-    function asNumber(value) {
-      if (typeof value === "number") return value;
-      if (typeof value !== "string") return null;
-      const cleaned = value.replace(/,/g, "").trim();
-      const match = cleaned.match(/-?[0-9]+(?:\\.[0-9]+)?/);
-      return match ? Number(match[0]) : null;
+    function formatNumber(value, decimals = 2) {
+      const n = asNumber(value);
+      if (n === null) return value ?? "—";
+
+      return n.toLocaleString(undefined, {
+        maximumFractionDigits: decimals
+      });
     }
 
     function formatCompact(value) {
       const n = asNumber(value);
       if (n === null) return value ?? "—";
+
       if (Math.abs(n) >= 1e9) return (n / 1e9).toFixed(2) + "B";
       if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(2) + "M";
       if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(2) + "K";
-      return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+      return n.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      });
     }
 
     function formatHashrate(value) {
       const n = asNumber(value);
       if (n === null) return value ?? "—";
-      // Explorer APIs commonly return hashes/sec.
+
+      if (n >= 1e15) return (n / 1e15).toFixed(2) + " PH/s";
       if (n >= 1e12) return (n / 1e12).toFixed(2) + " TH/s";
       if (n >= 1e9) return (n / 1e9).toFixed(2) + " GH/s";
       if (n >= 1e6) return (n / 1e6).toFixed(2) + " MH/s";
-      return n.toLocaleString(undefined, { maximumFractionDigits: 2 }) + " H/s";
+      if (n >= 1e3) return (n / 1e3).toFixed(2) + " KH/s";
+
+      return n.toLocaleString(undefined, {
+        maximumFractionDigits: 2
+      }) + " H/s";
     }
 
-    function unwrap(payload) {
-      if (!payload || typeof payload !== "object") return {};
-      return payload.data || payload.stats || payload.network || payload;
-    }
+    async function fetchJson(path) {
+      const response = await fetch(EXPLORER_BASE + path, {
+        method: "GET",
+        cache: "no-store",
+        headers: {
+          "Accept": "application/json, text/plain, */*"
+        }
+      });
 
-    function getField(o, keys) {
-      for (const key of keys) {
-        if (o && Object.prototype.hasOwnProperty.call(o, key)) return o[key];
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText} — ${path}`);
       }
-      return undefined;
+
+      const text = await response.text();
+
+      try {
+        return JSON.parse(text);
+      } catch {
+        return text.trim();
+      }
     }
 
     function setStat(id, value) {
       const el = $(id);
-      if (el && value !== undefined && value !== null && value !== "") el.textContent = value;
-    }
+      if (!el) return;
 
-    function normalizeStats(payload) {
-      const o = unwrap(payload);
-
-      const height = firstDefined(
-        getField(o, ["block_height", "blockHeight", "height", "blocks"]),
-        getField(payload, ["block_height", "blockHeight", "height", "blocks"])
-      );
-
-      const difficulty = firstDefined(
-        getField(o, ["difficulty", "current_difficulty"]),
-        getField(payload, ["difficulty", "current_difficulty"])
-      );
-
-      const hashrate = firstDefined(
-        getField(o, ["hashrate", "network_hashrate", "networkHashrate", "hash_rate"]),
-        getField(payload, ["hashrate", "network_hashrate", "networkHashrate", "hash_rate"])
-      );
-
-      const blockTime = firstDefined(
-        getField(o, ["avg_block_time", "average_block_time", "avgBlockTime", "block_time"]),
-        getField(payload, ["avg_block_time", "average_block_time", "avgBlockTime", "block_time"])
-      );
-
-      const chainSize = firstDefined(
-        getField(o, ["chain_size", "chainSize", "blockchain_size", "size"]),
-        getField(payload, ["chain_size", "chainSize", "blockchain_size", "size"])
-      );
-
-      const miners = firstDefined(
-        getField(o, ["active_miners", "activeMiners", "miners"]),
-        getField(payload, ["active_miners", "activeMiners", "miners"])
-      );
-
-      const addresses = firstDefined(
-        getField(o, ["total_addresses", "totalAddresses", "addresses"]),
-        getField(payload, ["total_addresses", "totalAddresses", "addresses"])
-      );
-
-      const supply = firstDefined(
-        getField(o, ["tracked_supply", "trackedSupply", "supply", "money_supply"]),
-        getField(payload, ["tracked_supply", "trackedSupply", "supply", "money_supply"])
-      );
-
-      const volume = firstDefined(
-        getField(o, ["volume_30d", "volume30d", "thirty_day_volume", "volume"]),
-        getField(payload, ["volume_30d", "volume30d", "thirty_day_volume", "volume"])
-      );
-
-      return { height, difficulty, hashrate, blockTime, chainSize, miners, addresses, supply, volume };
-    }
-
-    async function fetchExplorerStats() {
-      let lastError = null;
-
-      for (const endpoint of EXPLORER_API_ENDPOINTS) {
-        try {
-          const response = await fetch(endpoint, {
-            method: "GET",
-            cache: "no-store",
-            headers: { "Accept": "application/json" }
-          });
-
-          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-
-          const payload = await response.json();
-          const stats = normalizeStats(payload);
-
-          // Accept only a response that actually contains blockchain data.
-          if (stats.height !== undefined || stats.difficulty !== undefined || stats.hashrate !== undefined) {
-            return stats;
-          }
-        } catch (error) {
-          lastError = error;
-        }
-      }
-
-      throw lastError || new Error("No compatible BTCW explorer API endpoint responded.");
+      el.textContent =
+        value === undefined || value === null || value === ""
+          ? "—"
+          : value;
     }
 
     function updateLiveStatus(online, message) {
       const dot = $("live-dot");
       const status = $("live-status");
-      if (dot) dot.className = "inline-block w-2 h-2 rounded-full " + (online ? "bg-green-400" : "bg-red-500");
+
+      if (dot) {
+        dot.className =
+          "inline-block w-2 h-2 rounded-full " +
+          (online ? "bg-green-400" : "bg-red-500");
+      }
+
       if (status) status.textContent = message;
+    }
+
+    async function fetchExplorerStats() {
+      /*
+        getsummary is the most useful single endpoint and currently returns:
+        difficulty, supply, hashrate, connections, blockcount and masternodes.
+
+        getbasicstats is used as a fallback for block count and supply.
+      */
+      const summary = await fetchJson("/ext/getsummary");
+
+      let basic = null;
+
+      try {
+        basic = await fetchJson("/ext/getbasicstats");
+      } catch (error) {
+        console.warn("BTCW basic stats fallback unavailable:", error);
+      }
+
+      return {
+        height: summary?.blockcount ?? basic?.block_count,
+        difficulty: summary?.difficulty,
+        hashrate: summary?.hashrate,
+        supply: summary?.supply ?? basic?.money_supply,
+        connections: summary?.connections,
+        masternodes:
+          summary?.masternodeCount ??
+          basic?.masternode_count,
+        priceUsd: summary?.lastUSDPrice ?? basic?.last_price_usd,
+        priceBtc: summary?.lastPrice ?? basic?.last_price_btc
+      };
     }
 
     async function updateBlockchainStats() {
       try {
         const s = await fetchExplorerStats();
 
-        setStat("stat-height", formatCompact(s.height));
+        setStat("stat-height", formatNumber(s.height, 0));
         setStat("stat-difficulty", formatCompact(s.difficulty));
         setStat("stat-hashrate", formatHashrate(s.hashrate));
-        setStat("stat-blocktime", s.blockTime !== undefined ? `${formatCompact(s.blockTime)}s` : "—");
-        setStat("stat-chainsize", s.chainSize !== undefined ? `${formatCompact(s.chainSize)} GB` : "—");
-        setStat("stat-miners", formatCompact(s.miners));
-        setStat("stat-addresses", formatCompact(s.addresses));
-        setStat("stat-supply", s.supply !== undefined ? `${formatCompact(s.supply)} BTCW` : "—");
-        setStat("stat-volume", s.volume !== undefined ? `${formatCompact(s.volume)} BTCW` : "—");
+
+        /*
+          The public API documentation does not expose a direct average block
+          time or chain-size endpoint. Do not display invented values.
+        */
+        setStat("stat-blocktime", "N/A");
+        setStat("stat-chainsize", "N/A");
+
+        /*
+          "connections" is the number of connections to the explorer node,
+          not the number of miners. Therefore it is not shown as active miners.
+        */
+        setStat("stat-miners", "N/A");
+        setStat("stat-addresses", "N/A");
+        setStat("stat-volume", "N/A");
+
+        setStat(
+          "stat-supply",
+          s.supply !== undefined && s.supply !== null
+            ? `${formatCompact(s.supply)} BTCW`
+            : "—"
+        );
+
+        /*
+          Keep the existing address card honest: the explorer's documented
+          getdistribution endpoint provides distribution statistics, but not a
+          simple "total addresses" value suitable for this card.
+        */
 
         const h = asNumber(s.height);
-        $("network-live").textContent = `LIVE • Mainnet Active • Block ${h !== null ? h.toLocaleString() : "—"}`;
 
-        updateLiveStatus(true, "Live from BTCW explorer");
-        $("live-updated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
+        if ($("network-live")) {
+          $("network-live").textContent =
+            `LIVE • Mainnet Active • Block ${
+              h !== null ? h.toLocaleString() : "—"
+            }`;
+        }
+
+        updateLiveStatus(true, "Live from BTCW Explorer");
+
+        if ($("live-updated")) {
+          $("live-updated").textContent =
+            `Updated ${new Date().toLocaleTimeString()}`;
+        }
+
+        /*
+          Optional developer-console information. This confirms that the
+          website is receiving real explorer data without exposing extra UI.
+        */
+        console.debug("BTCW live explorer data:", {
+          blockHeight: s.height,
+          difficulty: s.difficulty,
+          hashrate: s.hashrate,
+          supply: s.supply,
+          connections: s.connections,
+          masternodes: s.masternodes,
+          priceUsd: s.priceUsd,
+          priceBtc: s.priceBtc
+        });
+
       } catch (error) {
-        console.warn("BTCW explorer integration error:", error);
-        updateLiveStatus(false, "Explorer data unavailable");
-        $("live-updated").textContent = "Retrying…";
+        console.error("BTCW explorer integration error:", error);
+
+        updateLiveStatus(
+          false,
+          "Unable to connect to BTCW Explorer"
+        );
+
+        if ($("live-updated")) {
+          $("live-updated").textContent = "Retrying…";
+        }
       }
     }
 
+    // Initial live update + automatic refresh every 30 seconds.
     updateBlockchainStats();
     setInterval(updateBlockchainStats, REFRESH_MS);
 
