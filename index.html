@@ -2877,16 +2877,16 @@ function updateLiveStatus(
 
 Official endpoints:
 
-btcw-explorer.space/api/getblockcount
-btcw-explorer.space/api/getdifficulty
-btcw-explorer.space/api/getnetworkhashps
-btcw-explorer.space/api/getconnectioncount
-btcw-explorer.space/api/getmasternodecount
-btcw-explorer.space/ext/getmoneysupply
-btcw-explorer.space/ext/getcurrentprice
-btcw-explorer.space/ext/getsummary
-btcw-explorer.space/ext/getnetworkpeers
-btcw-explorer.space/ext/getlasttxs/100/0/100
+https://btcw-explorer.space/api/getblockcount
+https://btcw-explorer.space/api/getdifficulty
+https://btcw-explorer.space/api/getnetworkhashps
+https://btcw-explorer.space/api/getconnectioncount
+https://btcw-explorer.space/api/getmasternodecount
+https://btcw-explorer.space/ext/getmoneysupply
+https://btcw-explorer.space/ext/getcurrentprice
+https://btcw-explorer.space/ext/getsummary
+https://btcw-explorer.space/ext/getnetworkpeers
+https://btcw-explorer.space/ext/getlasttxs/100/0/100
 
 ===============================================================
 */
@@ -2897,43 +2897,43 @@ async function fetchCoreData() {
     await Promise.allSettled([
 
       btcwFetch(
-        "btcw-explorer.space/api/getblockcount"
+        "https://btcw-explorer.space/api/getblockcount"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/api/getdifficulty"
+        "https://btcw-explorer.space/api/getdifficulty"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/api/getnetworkhashps"
+        "https://btcw-explorer.space/api/getnetworkhashps"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/api/getconnectioncount"
+        "https://btcw-explorer.space/api/getconnectioncount"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/api/getmasternodecount"
+        "https://btcw-explorer.space/api/getmasternodecount"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/ext/getmoneysupply"
+        "https://btcw-explorer.space/ext/getmoneysupply"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/ext/getcurrentprice"
+        "https://btcw-explorer.space/ext/getcurrentprice"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/ext/getsummary"
+        "https://btcw-explorer.space/ext/getsummary"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/ext/getnetworkpeers"
+        "https://btcw-explorer.space/ext/getnetworkpeers"
       ),
 
       btcwFetch(
-        "btcw-explorer.space/ext/getlasttxs/100/0/100"
+        "https://btcw-explorer.space/ext/getlasttxs/100/0/100"
       )
 
     ]);
@@ -3135,7 +3135,7 @@ async function fetchLatestBlock(
 
     const hashResponse =
       await btcwFetch(
-        "btcw-explorer.space/api/getblockhash?index=" +
+        "https://btcw-explorer.space/api/getblockhash?index=" +
         encodeURIComponent(height)
       );
 
@@ -3159,7 +3159,7 @@ async function fetchLatestBlock(
 
     const blockResponse =
       await btcwFetch(
-        "btcw-explorer.space/api/getblock?hash=" +
+        "https://btcw-explorer.space/api/getblock?hash=" +
         encodeURIComponent(hash)
       );
 
@@ -3690,7 +3690,7 @@ async function updateLatestBlock(
 
       const previousHash =
         await btcwFetch(
-          "btcw-explorer.space/api/getblockhash?index=" +
+          "https://btcw-explorer.space/api/getblockhash?index=" +
           encodeURIComponent(
             previousHeight
           )
@@ -3711,7 +3711,7 @@ async function updateLatestBlock(
 
         const previousBlock =
           await btcwFetch(
-            "btcw-explorer.space/api/getblock?hash=" +
+            "https://btcw-explorer.space/api/getblock?hash=" +
             encodeURIComponent(
               previousHashValue
             )
