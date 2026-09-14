@@ -4,2559 +4,1087 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>BitcoinPoW (BTCW) — The Decentralized Future</title>
-
-<meta name="description"
-      content="BitcoinPoW uses Proof-of-Work + Proof-of-Transactions to build a decentralized blockchain.">
-
+<meta name="description" content="BitcoinPoW uses PoW + PoT to advance decentralized mining and restore Satoshi's vision.">
 <link rel="icon" href="favicon.ico">
 
-<!-- Tailwind -->
+<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
 <!-- Font Awesome -->
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-
-body {
-  font-family: 'Inter', sans-serif;
-}
-
-.btc-gradient {
-  background: linear-gradient(90deg, #f7931a, #ffd700, #ffed4a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-bg {
-  background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
-}
-
-canvas#particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-}
-
-.glass {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-
-.neon-glow {
-  box-shadow: 0 0 70px rgba(247,147,26,0.65);
-}
-
-.modal {
-  animation: fadeInScale 0.2s ease-out forwards;
-}
-
-@keyframes fadeInScale {
-
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+  body {
+    font-family: 'Inter', sans-serif;
   }
 
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .btc-gradient {
+    background: linear-gradient(90deg, #f7931a, #ffd700, #ffed4a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-}
+  .hero-bg {
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+  }
 
-.stat-loading {
-  opacity: 0.5;
-}
+  canvas#particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.85;
+    pointer-events: none;
+  }
 
-.stat-live {
-  transition: all 0.3s ease;
-}
+  .content {
+    position: relative;
+    z-index: 2;
+  }
 
+  .glass {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 70px rgba(247, 147, 26, 0.65);
+  }
+
+  .modal {
+    animation: fadeInScale 0.2s ease-out forwards;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 </style>
 </head>
 
 <body class="bg-black text-white font-sans">
 
-
-<!-- ========================================================= -->
-<!-- NAVIGATION -->
-<!-- ========================================================= -->
-
-<nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/10">
-
-  <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-
-    <div class="flex items-center gap-4">
-
-      <img src="images/btcw.svg"
-           class="w-9 h-9"
-           alt="BTCW">
-
-      <span class="text-2xl font-bold tracking-tighter">
-        BitcoinPoW
-      </span>
-
-    </div>
-
-
-    <div class="hidden md:flex items-center gap-10 text-sm font-medium">
-
-      <a href="#vision"
-         class="hover:text-amber-400 transition">
-         Vision
-      </a>
-
-      <a href="#network"
-         class="hover:text-amber-400 transition">
-         Network
-      </a>
-
-      <a href="#technology"
-         class="hover:text-amber-400 transition">
-         Technology & Benefits
-      </a>
-
-      <a href="#downloads"
-         class="hover:text-amber-400 transition">
-         Downloads
-      </a>
-
-      <a href="https://donations.bitcoinpow.org"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="hover:text-amber-400 transition">
-         Donations
-      </a>
-
-    </div>
-
-
-    <div class="hidden md:flex items-center gap-4">
-
-      <button onclick="showExplorerModal()"
-              class="px-6 py-3 border border-white/60 hover:border-amber-400 rounded-2xl transition-all flex items-center gap-2 text-sm">
-
-        <i class="fas fa-chart-simple"></i>
-        Explorer
-
-      </button>
-
-
-      <button onclick="showBuyModal()"
-              class="px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl hover:scale-105 transition-all flex items-center gap-2">
-
-        <i class="fas fa-shopping-cart"></i>
-        Buy BTCW
-
-      </button>
-
-    </div>
-
-
-    <button id="menu-btn"
-            class="md:hidden text-3xl"
-            aria-label="Open menu">
-
-      <i class="fas fa-bars"></i>
-
-    </button>
-
-  </div>
-
-
-  <div id="mobile-menu"
-       class="hidden md:hidden bg-black/95 border-t border-white/10">
-
-    <div class="px-6 py-8 flex flex-col gap-6 text-lg">
-
-      <a href="#vision"
-         class="hover:text-amber-400">
-         Vision
-      </a>
-
-      <a href="#network"
-         class="hover:text-amber-400">
-         Network
-      </a>
-
-      <a href="#technology"
-         class="hover:text-amber-400">
-         Technology & Benefits
-      </a>
-
-      <a href="#downloads"
-         class="hover:text-amber-400">
-         Downloads
-      </a>
-
-      <a href="https://donations.bitcoinpow.org"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="hover:text-amber-400">
-         Donations
-      </a>
-
-
-      <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
-
-        <button onclick="showExplorerModal(); closeMobileMenu();"
-                class="flex items-center gap-3 px-6 py-4 border border-white/60 rounded-2xl">
-
-          <i class="fas fa-chart-simple"></i>
-          Explorer
-
-        </button>
-
-
-        <button onclick="showBuyModal(); closeMobileMenu();"
-                class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl">
-
-          <i class="fas fa-shopping-cart"></i>
-          Buy BTCW
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</nav>
-
-
-
-<!-- ========================================================= -->
-<!-- HERO -->
-<!-- ========================================================= -->
-
-<section class="hero-bg min-h-screen flex items-center relative overflow-hidden pt-16">
-
-  <canvas id="particles"></canvas>
-
-
-  <div class="content max-w-7xl mx-auto px-6 pt-12 md:pt-20 grid lg:grid-cols-12 gap-12 items-center relative z-10">
-
-
-    <div class="lg:col-span-7">
-
-
-      <div class="inline-flex items-center gap-3 px-5 py-2 bg-white/5 rounded-3xl border border-amber-400/30 mb-8 text-sm">
-
-        <span class="relative flex h-3 w-3">
-
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
-
-        </span>
-
-
-        <span id="network-live"
-              class="text-amber-400 font-medium">
-
-          LIVE • Mainnet Active • Block — 
-
-        </span>
-
-      </div>
-
-
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter">
-
-        The Bitcoin<br>
-
-        that Satoshi<br>
-
-        <span class="btc-gradient">
-          Dreamed Of
-        </span>
-
-      </h1>
-
-
-      <p class="mt-8 text-lg md:text-xl lg:text-2xl text-gray-300">
-
-        Proof-of-Work + Proof-of-Transactions.<br>
-
-        A decentralized mining ecosystem.
-
-      </p>
-
-
-      <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4">
-
-        <a href="#downloads"
-           class="px-8 py-5 text-lg font-semibold bg-white text-black rounded-3xl hover:bg-amber-400 transition-all text-center">
-
-          Download Wallet
-
-        </a>
-
-
-        <a href="https://github.com/bitcoinpow-organization/BitcoinPoW/blob/26.x_btcw/README.md"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="px-8 py-5 text-lg font-medium border border-white/60 hover:border-white rounded-3xl transition-all text-center">
-
-          Read Whitepaper →
-
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="lg:col-span-5 flex justify-center mt-12 lg:mt-0">
-
-      <img src="images/btcw.svg"
-           alt="BitcoinPoW"
-           class="w-full max-w-sm md:max-w-md neon-glow rounded-[3rem] p-6">
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- VISION -->
-<!-- ========================================================= -->
-
-<section id="vision"
-         class="py-20 md:py-28 bg-zinc-950">
-
-  <div class="max-w-5xl mx-auto px-6 text-center">
-
-    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-
-      Satoshi wanted mining to be truly decentralized
-
-      <br>
-
-      <span class="text-amber-400">
-        Build a stronger decentralized network
-      </span>
-
-    </h2>
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- LIVE NETWORK -->
-<!-- ========================================================= -->
-
-<section id="network"
-         class="py-20 md:py-28">
-
-  <div class="max-w-7xl mx-auto px-6">
-
-
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
-
-
-      <div>
-
-        <h2 class="text-4xl md:text-5xl font-bold">
-          The Chain, Live
-        </h2>
-
-        <p class="text-gray-400 mt-3">
-          Real-time data from the BitcoinPoW blockchain explorer.
-        </p>
-
-      </div>
-
-
-      <div class="flex flex-col items-start md:items-end gap-2">
-
-        <a href="https://btcw-explorer.space"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium">
-
-          Open full explorer
-
-          <i class="fas fa-arrow-right text-sm"></i>
-
-        </a>
-
-
-        <div class="flex items-center gap-2 text-xs text-gray-500">
-
-          <span id="live-dot"
-                class="inline-block w-2 h-2 rounded-full bg-gray-600">
-          </span>
-
-          <span id="live-status">
-            Connecting to BTCW Explorer...
-          </span>
-
-          <span>•</span>
-
-          <span id="live-updated">
-            —
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- PRIMARY STATS -->
-
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
-
-
-      <!-- BLOCK HEIGHT -->
-
-      <div class="glass p-6 rounded-2xl text-center stat-live">
-
-        <div id="stat-height"
-             class="text-2xl md:text-3xl font-bold text-amber-400">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Block Height
-        </div>
-
-      </div>
-
-
-      <!-- DIFFICULTY -->
-
-      <div class="glass p-6 rounded-2xl text-center stat-live">
-
-        <div id="stat-difficulty"
-             class="text-2xl md:text-3xl font-bold text-amber-400">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Difficulty
-        </div>
-
-      </div>
-
-
-      <!-- HASHRATE -->
-
-      <div class="glass p-6 rounded-2xl text-center stat-live">
-
-        <div id="stat-hashrate"
-             class="text-2xl md:text-3xl font-bold text-amber-400">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Network Hashrate
-        </div>
-
-      </div>
-
-
-      <!-- CONNECTIONS -->
-
-      <div class="glass p-6 rounded-2xl text-center stat-live">
-
-        <div id="stat-connections"
-             class="text-2xl md:text-3xl font-bold text-amber-400">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Network Connections
-        </div>
-
-      </div>
-
-
-      <!-- MASTERNODES -->
-
-      <div class="glass p-6 rounded-2xl text-center stat-live">
-
-        <div id="stat-masternodes"
-             class="text-2xl md:text-3xl font-bold text-amber-400">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Masternodes
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- SECONDARY STATS -->
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-
-      <!-- SUPPLY -->
-
-      <div class="glass p-6 rounded-2xl text-center">
-
-        <div id="stat-supply"
-             class="text-2xl md:text-3xl font-bold">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Circulating Supply
-        </div>
-
-      </div>
-
-
-      <!-- USD PRICE -->
-
-      <div class="glass p-6 rounded-2xl text-center">
-
-        <div id="stat-price"
-             class="text-2xl md:text-3xl font-bold">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          BTCW Price
-        </div>
-
-      </div>
-
-
-      <!-- PEERS -->
-
-      <div class="glass p-6 rounded-2xl text-center">
-
-        <div id="stat-peers"
-             class="text-2xl md:text-3xl font-bold">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Network Peers
-        </div>
-
-      </div>
-
-
-      <!-- LAST BLOCK -->
-
-      <div class="glass p-6 rounded-2xl text-center">
-
-        <div id="stat-lastblock"
-             class="text-2xl md:text-3xl font-bold">
-
-          —
-
-        </div>
-
-        <div class="text-xs text-gray-400 mt-2 uppercase tracking-wide">
-          Latest Block
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- API STATUS -->
-
-    <div id="api-error"
-         class="hidden mt-6 p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300 text-sm">
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- TECHNOLOGY -->
-<!-- ========================================================= -->
-
-<section id="technology"
-         class="py-20 md:py-28 bg-zinc-950">
-
-  <div class="max-w-7xl mx-auto px-6">
-
-    <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 md:mb-20">
-
-      Advanced Consensus Engine
-
-    </h2>
-
-
-    <div class="grid md:grid-cols-3 gap-8">
-
-
-      <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-
-        <div class="text-amber-400 text-5xl mb-6">
-          ⚡
-        </div>
-
-        <h3 class="text-2xl font-semibold mb-4">
-          Proof of Transactions (PoT)
-        </h3>
-
-        <p class="text-gray-400">
-          Your wallet performs real work by hashing your own UTXOs,
-          connecting mining participation with blockchain ownership.
-        </p>
-
-      </div>
-
-
-      <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-
-        <div class="text-amber-400 text-5xl mb-6">
-          🔗
-        </div>
-
-        <h3 class="text-2xl font-semibold mb-4">
-          Decentralized Mining
-        </h3>
-
-        <p class="text-gray-400">
-          BitcoinPoW is designed to encourage decentralized participation
-          and reduce dependence on centralized mining infrastructure.
-        </p>
-
-      </div>
-
-
-      <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
-
-        <div class="text-amber-400 text-5xl mb-6">
-          ⚖️
-        </div>
-
-        <h3 class="text-2xl font-semibold mb-4">
-          Fair Consensus
-        </h3>
-
-        <p class="text-gray-400">
-          BitcoinPoW combines Proof-of-Work and transaction-based
-          consensus mechanisms to create a unique mining ecosystem.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- DOWNLOADS -->
-<!-- ========================================================= -->
-
-<section id="downloads"
-         class="py-20 md:py-28 bg-gradient-to-b from-transparent via-amber-900/10 to-transparent">
-
-  <div class="max-w-7xl mx-auto px-6 text-center">
-
-    <h2 class="text-4xl md:text-5xl font-bold mb-6">
-      Download BitcoinPoW
-    </h2>
-
-    <p class="text-gray-400 text-lg mb-12">
-      Full nodes for Windows, Linux & macOS • v26.6.1 Unified
-    </p>
-
-
-    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-8">
-
-
-      <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-win64.zip"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-
-        <img src="images/windows-logo.png"
-             class="w-16 mx-auto mb-6"
-             alt="Windows">
-
-        <h3 class="text-2xl font-bold">
-          Windows
-        </h3>
-
-        <p class="text-gray-400 text-sm mt-2">
-          Full node wallet
-        </p>
-
-      </a>
-
-
-      <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-x86_64-linux-gnu.tar.gz"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-
-        <img src="images/linux-logo.png"
-             class="w-16 mx-auto mb-6"
-             alt="Linux">
-
-        <h3 class="text-2xl font-bold">
-          Linux
-        </h3>
-
-        <p class="text-gray-400 text-sm mt-2">
-          Full node wallet
-        </p>
-
-      </a>
-
-
-      <a href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-arm64-apple-darwin.zip"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
-
-        <img src="images/apple.png"
-             class="w-16 mx-auto mb-6"
-             alt="macOS">
-
-        <h3 class="text-2xl font-bold">
-          macOS
-        </h3>
-
-        <p class="text-gray-400 text-sm mt-2">
-          Full node wallet
-        </p>
-
-      </a>
-
-    </div>
-
-
-    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
-
-
-      <a href="https://github.com/btcw-space/opencl-btcw-miner/releases/tag/v1.0.2"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="glass p-6 rounded-2xl hover:border-amber-400 transition flex items-center gap-4 text-left">
-
-        <i class="fas fa-microchip text-amber-400 text-3xl"></i>
-
-        <div>
-
-          <div class="font-semibold">
-            OpenCL GPU Miner v1.0.2
-          </div>
-
-          <div class="text-sm text-gray-400">
-            NVIDIA & AMD, Windows/Linux/macOS
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a href="https://chromewebstore.google.com/detail/btcw-wallet/pmnbohfmekcbgokbgfmebclbpogoamnh"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="glass p-6 rounded-2xl hover:border-amber-400 transition flex items-center gap-4 text-left">
-
-        <i class="fab fa-chrome text-amber-400 text-3xl"></i>
-
-        <div>
-
-          <div class="font-semibold">
-            BTCW Wallet — Chrome Extension
-          </div>
-
-          <div class="text-sm text-gray-400">
-            Send, receive & bridge from your browser
-          </div>
-
-        </div>
-
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- ========================================================= -->
-<!-- FOOTER -->
-<!-- ========================================================= -->
-
-<footer class="bg-black py-16 border-t border-white/10">
-
-  <div class="max-w-7xl mx-auto px-6">
-
-    <div class="flex flex-col items-center gap-8 text-center">
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
 
       <div class="flex items-center gap-4">
+        <img src="images/btcw.svg" class="w-9 h-9" alt="BTCW">
+        <span class="text-2xl font-bold tracking-tighter">BitcoinPoW</span>
+      </div>
 
-        <img src="images/btcw.svg"
-             class="w-10 h-10"
-             alt="BitcoinPoW Logo">
+      <div class="hidden md:flex items-center gap-10 text-sm font-medium">
+        <a href="#vision" class="hover:text-amber-400 transition">Vision</a>
+        <a href="#technology" class="hover:text-amber-400 transition">Technology & Benefits</a>
+        <a href="#downloads" class="hover:text-amber-400 transition">Downloads</a>
+        <a href="https://donations.bitcoinpow.org"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="hover:text-amber-400 transition">
+          Donations
+        </a>
+      </div>
 
-        <span class="text-2xl font-bold">
-          BitcoinPoW
+      <!-- EXPLORER + BUY BUTTONS -->
+      <div class="hidden md:flex items-center gap-4">
+
+        <button
+          onclick="showExplorerModal()"
+          class="px-6 py-3 border border-white/60 hover:border-amber-400 rounded-2xl transition-all flex items-center gap-2 text-sm">
+          <i class="fas fa-chart-simple"></i>
+          Explorer
+        </button>
+
+        <button
+          onclick="showBuyModal()"
+          class="px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl hover:scale-105 transition-all flex items-center gap-2">
+          <i class="fas fa-shopping-cart"></i>
+          Buy BTCW
+        </button>
+
+      </div>
+
+      <button
+        id="menu-btn"
+        class="md:hidden text-3xl"
+        aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="hidden md:hidden bg-black/95 border-t border-white/10">
+      <div class="px-6 py-8 flex flex-col gap-6 text-lg">
+
+        <a href="#vision" class="hover:text-amber-400">Vision</a>
+        <a href="#technology" class="hover:text-amber-400">Technology & Benefits</a>
+        <a href="#downloads" class="hover:text-amber-400">Downloads</a>
+
+        <a
+          href="https://donations.bitcoinpow.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-amber-400">
+          Donations
+        </a>
+
+        <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
+
+          <button
+            onclick="showExplorerModal(); closeMobileMenu();"
+            class="flex items-center gap-3 px-6 py-4 border border-white/60 rounded-2xl">
+            <i class="fas fa-chart-simple"></i>
+            Explorer
+          </button>
+
+          <button
+            onclick="showBuyModal(); closeMobileMenu();"
+            class="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-semibold rounded-2xl">
+            <i class="fas fa-shopping-cart"></i>
+            Buy BTCW
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero-bg min-h-screen flex items-center relative overflow-hidden pt-16">
+
+    <canvas id="particles"></canvas>
+
+    <div class="content max-w-7xl mx-auto px-6 pt-12 md:pt-20 grid lg:grid-cols-12 gap-12 items-center relative z-10">
+
+      <div class="lg:col-span-7">
+
+        <!-- STATIC MAINNET STATUS -->
+        <div class="inline-flex items-center gap-3 px-5 py-2 bg-white/5 rounded-3xl border border-amber-400/30 mb-8 text-sm">
+
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
+          </span>
+
+          <span class="text-amber-400 font-medium">
+            LIVE • Mainnet Active
+          </span>
+
+        </div>
+
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-none tracking-tighter">
+          The Bitcoin<br>
+          that Satoshi<br>
+          <span class="btc-gradient">Dreamed Of</span>
+        </h1>
+
+        <p class="mt-8 text-lg md:text-xl lg:text-2xl text-gray-300">
+          Proof-of-Work + Proof-of-Transactions.<br>
+          Mining pools eliminated. One node = one vote.
+        </p>
+
+        <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4">
+
+          <a
+            href="#downloads"
+            class="px-8 py-5 text-lg font-semibold bg-white text-black rounded-3xl hover:bg-amber-400 transition-all text-center">
+            Download Wallet
+          </a>
+
+          <a
+            href="https://github.com/bitcoinpow-organization/BitcoinPoW/blob/26.x_btcw/README.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-8 py-5 text-lg font-medium border border-white/60 hover:border-white rounded-3xl transition-all text-center">
+            Read Whitepaper →
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="lg:col-span-5 flex justify-center mt-12 lg:mt-0">
+        <img
+          src="images/btcw.svg"
+          alt="BitcoinPoW"
+          class="w-full max-w-sm md:max-w-md neon-glow rounded-[3rem] p-6">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- VISION -->
+  <section id="vision" class="py-20 md:py-28 bg-zinc-950">
+
+    <div class="max-w-5xl mx-auto px-6 text-center">
+
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+        Satoshi wanted mining to be truly decentralized<br>
+        <span class="text-amber-400">
+          We eliminated mining pools forever
         </span>
+      </h2>
+
+    </div>
+  </section>
+
+
+  <!-- TECHNOLOGY & BENEFITS -->
+  <section id="technology" class="py-20 md:py-28 bg-zinc-950">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 md:mb-20">
+        Advanced Consensus Engine
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
+
+          <div class="text-amber-400 text-5xl mb-6">⚡</div>
+
+          <h3 class="text-2xl font-semibold mb-4">
+            Proof of Transactions (PoT)
+          </h3>
+
+          <p class="text-gray-400">
+            Your wallet performs real work by hashing your own UTXOs —
+            mining weight and ownership can never be separated.
+          </p>
+
+        </div>
+
+
+        <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
+
+          <div class="text-amber-400 text-5xl mb-6">🔗</div>
+
+          <h3 class="text-2xl font-semibold mb-4">
+            No Mining Pools
+          </h3>
+
+          <p class="text-gray-400">
+            Solo mining is enforced at the protocol level.
+            Every block on the chain — 140,000+ and counting —
+            has been mined this way.
+          </p>
+
+        </div>
+
+
+        <div class="glass p-8 md:p-10 rounded-3xl hover:scale-105 transition-all">
+
+          <div class="text-amber-400 text-5xl mb-6">⚖️</div>
+
+          <h3 class="text-2xl font-semibold mb-4">
+            Perfectly Fair
+          </h3>
+
+          <p class="text-gray-400">
+            All UTXOs treated equally — no wallet size or age
+            buys extra consensus weight.
+          </p>
+
+        </div>
 
       </div>
+    </div>
+  </section>
 
 
-      <div class="flex gap-6 text-2xl">
+  <!-- DOWNLOADS -->
+  <section
+    id="downloads"
+    class="py-20 md:py-28 bg-gradient-to-b from-transparent via-amber-900/10 to-transparent">
 
-        <a href="https://x.com/bitcoin_pow"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="hover:text-amber-400 transition-colors">
+    <div class="max-w-7xl mx-auto px-6 text-center">
 
-          <i class="fab fa-x-twitter"></i>
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">
+        Download BitcoinPoW
+      </h2>
 
-        </a>
-
-
-        <a href="https://t.me/BitcoinPoWPoT"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="hover:text-amber-400 transition-colors">
-
-          <i class="fab fa-telegram"></i>
-
-        </a>
-
-
-        <a href="https://github.com/btcw-space/BitcoinPoW"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="hover:text-amber-400 transition-colors">
-
-          <i class="fab fa-github"></i>
-
-        </a>
-
-
-        <a href="https://discord.gg/eg9yhg5Xs"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="hover:text-amber-400 transition-colors">
-
-          <i class="fab fa-discord"></i>
-
-        </a>
-
-      </div>
-
-
-      <p class="text-gray-500 text-sm">
-        © 2026 BitcoinPoW • All Rights Reserved
+      <p class="text-gray-400 text-lg mb-12">
+        Full nodes for Windows, Linux & macOS • v26.6.1 Unified
       </p>
 
+
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-8">
+
+        <a
+          href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-win64.zip"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
+
+          <img
+            src="images/windows-logo.png"
+            class="w-16 mx-auto mb-6"
+            alt="Windows">
+
+          <h3 class="text-2xl font-bold">
+            Windows
+          </h3>
+
+          <p class="text-gray-400 text-sm mt-2">
+            Full node wallet
+          </p>
+
+        </a>
+
+
+        <a
+          href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-x86_64-linux-gnu.tar.gz"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
+
+          <img
+            src="images/linux-logo.png"
+            class="w-16 mx-auto mb-6"
+            alt="Linux">
+
+          <h3 class="text-2xl font-bold">
+            Linux
+          </h3>
+
+          <p class="text-gray-400 text-sm mt-2">
+            Full node wallet
+          </p>
+
+        </a>
+
+
+        <a
+          href="https://github.com/btcw-space/BitcoinPoW/releases/download/v26.6.1_unified/BitcoinPoW-v26.6.1_unified-arm64-apple-darwin.zip"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass p-10 rounded-3xl hover:border-amber-400 transition text-center">
+
+          <img
+            src="images/apple.png"
+            class="w-16 mx-auto mb-6"
+            alt="macOS">
+
+          <h3 class="text-2xl font-bold">
+            macOS
+          </h3>
+
+          <p class="text-gray-400 text-sm mt-2">
+            Full node wallet
+          </p>
+
+        </a>
+
+      </div>
+
+
+      <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+
+        <a
+          href="https://github.com/btcw-space/opencl-btcw-miner/releases/tag/v1.0.2"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass p-6 rounded-2xl hover:border-amber-400 transition flex items-center gap-4 text-left">
+
+          <i class="fas fa-microchip text-amber-400 text-3xl"></i>
+
+          <div>
+            <div class="font-semibold">
+              OpenCL GPU Miner v1.0.2
+            </div>
+
+            <div class="text-sm text-gray-400">
+              NVIDIA & AMD, Windows/Linux/macOS
+            </div>
+          </div>
+
+        </a>
+
+
+        <a
+          href="https://chromewebstore.google.com/detail/btcw-wallet/pmnbohfmekcbgokbgfmebclbpogoamnh"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="glass p-6 rounded-2xl hover:border-amber-400 transition flex items-center gap-4 text-left">
+
+          <i class="fab fa-chrome text-amber-400 text-3xl"></i>
+
+          <div>
+            <div class="font-semibold">
+              BTCW Wallet — Chrome Extension
+            </div>
+
+            <div class="text-sm text-gray-400">
+              Send, receive & bridge from your browser
+            </div>
+          </div>
+
+        </a>
+
+      </div>
+
     </div>
-
-  </div>
-
-</footer>
+  </section>
 
 
+  <!-- FOOTER -->
+  <footer class="bg-black py-16 border-t border-white/10">
 
-<!-- ========================================================= -->
-<!-- EXPLORER MODAL -->
-<!-- ========================================================= -->
+    <div class="max-w-7xl mx-auto px-6">
 
-<div id="explorer-modal"
-     onclick="if(event.target.id === 'explorer-modal') hideExplorerModal()"
-     class="hidden fixed inset-0 bg-black/80 items-center justify-center z-[100] px-4">
+      <div class="flex flex-col items-center gap-8 text-center">
 
-  <div onclick="event.stopImmediatePropagation()"
-       class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
+        <div class="flex items-center gap-4">
+          <img
+            src="images/btcw.svg"
+            class="w-10 h-10"
+            alt="BitcoinPoW Logo">
+
+          <span class="text-2xl font-bold">
+            BitcoinPoW
+          </span>
+        </div>
 
 
-    <div class="flex justify-between items-center mb-6">
+        <div class="flex gap-6 text-2xl">
 
-      <h3 class="text-2xl font-bold">
-        Choose Explorer
-      </h3>
+          <a
+            href="https://x.com/bitcoin_pow"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-amber-400 transition-colors"
+            aria-label="BitcoinPoW on X">
+            <i class="fab fa-x-twitter"></i>
+          </a>
 
-      <button onclick="hideExplorerModal()"
-              class="text-2xl text-gray-400 hover:text-white">
+          <a
+            href="https://t.me/BitcoinPoWPoT"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-amber-400 transition-colors"
+            aria-label="BitcoinPoW Telegram">
+            <i class="fab fa-telegram"></i>
+          </a>
 
-        ×
+          <a
+            href="https://github.com/btcw-space/BitcoinPoW"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-amber-400 transition-colors"
+            aria-label="BitcoinPoW GitHub">
+            <i class="fab fa-github"></i>
+          </a>
 
+          <a
+            href="https://discord.gg/eg9yhg5Xs"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-amber-400 transition-colors"
+            aria-label="BitcoinPoW Discord">
+            <i class="fab fa-discord"></i>
+          </a>
+
+        </div>
+
+
+        <p class="text-gray-500 text-sm">
+          © 2026 BitcoinPoW • All Rights Reserved
+        </p>
+
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- EXPLORER MODAL -->
+  <div
+    id="explorer-modal"
+    onclick="if (event.target.id === 'explorer-modal') hideExplorerModal()"
+    class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4">
+
+    <div
+      onclick="event.stopImmediatePropagation()"
+      class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
+
+      <div class="flex justify-between items-center mb-6">
+
+        <h3 class="text-2xl font-bold">
+          Choose Explorer
+        </h3>
+
+        <button
+          onclick="hideExplorerModal()"
+          class="text-2xl text-gray-400 hover:text-white"
+          aria-label="Close explorer menu">
+          ×
+        </button>
+
+      </div>
+
+
+      <p class="text-gray-400 mb-6 text-sm">
+        Choose your preferred BitcoinPoW blockchain explorer:
+      </p>
+
+
+      <div class="space-y-4">
+
+        <!-- EXPLORER 1 -->
+        <a
+          href="https://explorer.bitcoinpow.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+
+            <img
+              src="images/btcw.svg"
+              alt="BTCW"
+              class="w-full h-full object-contain">
+
+          </div>
+
+          <div class="flex-1">
+
+            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+              Explorer 1
+            </div>
+
+            <div class="text-sm text-gray-400">
+              explorer.bitcoinpow.org
+            </div>
+
+          </div>
+
+          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+        </a>
+
+
+        <!-- EXPLORER 2 -->
+        <a
+          href="https://btcw-explorer.space"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+
+            <img
+              src="images/btcw.svg"
+              alt="BTCW"
+              class="w-full h-full object-contain">
+
+          </div>
+
+          <div class="flex-1">
+
+            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+              Explorer 2
+            </div>
+
+            <div class="text-sm text-gray-400">
+              btcw-explorer.space
+            </div>
+
+          </div>
+
+          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+        </a>
+
+      </div>
+
+
+      <button
+        onclick="hideExplorerModal()"
+        class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
+        Cancel
       </button>
 
     </div>
-
-
-    <p class="text-gray-400 mb-6 text-sm">
-      Choose your preferred BitcoinPoW blockchain explorer:
-    </p>
-
-
-    <div class="space-y-4">
-
-
-      <a href="https://btcw-explorer.space"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-
-        <img src="images/btcw.svg"
-             class="w-12 h-12"
-             alt="BTCW">
-
-        <div class="flex-1">
-
-          <div class="font-semibold text-lg group-hover:text-amber-400">
-            BTCW Explorer
-          </div>
-
-          <div class="text-sm text-gray-400">
-            btcw-explorer.space
-          </div>
-
-        </div>
-
-        <i class="fas fa-external-link-alt text-gray-400"></i>
-
-      </a>
-
-
-      <a href="https://explorer.bitcoinpow.org"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-
-        <img src="images/btcw.svg"
-             class="w-12 h-12"
-             alt="BTCW">
-
-        <div class="flex-1">
-
-          <div class="font-semibold text-lg group-hover:text-amber-400">
-            Explorer
-          </div>
-
-          <div class="text-sm text-gray-400">
-            explorer.bitcoinpow.org
-          </div>
-
-        </div>
-
-        <i class="fas fa-external-link-alt text-gray-400"></i>
-
-      </a>
-
-    </div>
-
-
-    <button onclick="hideExplorerModal()"
-            class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl">
-
-      Cancel
-
-    </button>
-
   </div>
 
-</div>
+
+  <!-- BUY BTCW MODAL -->
+  <div
+    id="buy-modal"
+    onclick="if (event.target.id === 'buy-modal') hideBuyModal()"
+    class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4">
+
+    <div
+      onclick="event.stopImmediatePropagation()"
+      class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
+
+      <div class="flex justify-between items-center mb-6">
+
+        <h3 class="text-2xl font-bold">
+          Buy BTCW
+        </h3>
+
+        <button
+          onclick="hideBuyModal()"
+          class="text-2xl text-gray-400 hover:text-white"
+          aria-label="Close buy menu">
+          ×
+        </button>
+
+      </div>
 
 
-
-<!-- ========================================================= -->
-<!-- BUY MODAL -->
-<!-- ========================================================= -->
-
-<div id="buy-modal"
-     onclick="if(event.target.id === 'buy-modal') hideBuyModal()"
-     class="hidden fixed inset-0 bg-black/80 items-center justify-center z-[100] px-4">
-
-  <div onclick="event.stopImmediatePropagation()"
-       class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
+      <p class="text-gray-400 mb-6 text-sm">
+        Choose your preferred exchange:
+      </p>
 
 
-    <div class="flex justify-between items-center mb-6">
+      <div class="space-y-4">
 
-      <h3 class="text-2xl font-bold">
-        Buy BTCW
-      </h3>
+        <!-- DEX-TRADE -->
+        <a
+          href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
 
-      <button onclick="hideBuyModal()"
-              class="text-2xl text-gray-400">
+          <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
 
-        ×
+            <i class="fas fa-chart-line text-black text-2xl"></i>
 
+          </div>
+
+          <div class="flex-1">
+
+            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+              Dex-Trade
+            </div>
+
+            <div class="text-sm text-gray-400">
+              BTCW / USDT • Spot Trading
+            </div>
+
+          </div>
+
+          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+        </a>
+
+
+        <!-- EADX -->
+        <a
+          href="https://eadxexchange.com/trade/BTCW-USDT"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+          <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+
+            <i class="fas fa-globe text-white text-2xl"></i>
+
+          </div>
+
+          <div class="flex-1">
+
+            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+              EADX Exchange
+            </div>
+
+            <div class="text-sm text-gray-400">
+              BTCW / USDT • Spot Trading
+            </div>
+
+          </div>
+
+          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+        </a>
+
+      </div>
+
+
+      <button
+        onclick="hideBuyModal()"
+        class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
+        Cancel
       </button>
 
     </div>
-
-
-    <p class="text-gray-400 mb-6 text-sm">
-      Choose your preferred exchange:
-    </p>
-
-
-    <div class="space-y-4">
-
-
-      <a href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl">
-
-        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center">
-
-          <i class="fas fa-chart-line text-black text-2xl"></i>
-
-        </div>
-
-        <div class="flex-1">
-
-          <div class="font-semibold text-lg">
-            Dex-Trade
-          </div>
-
-          <div class="text-sm text-gray-400">
-            BTCW / USDT • Spot Trading
-          </div>
-
-        </div>
-
-      </a>
-
-
-      <a href="https://eadxexchange.com/trade/BTCW-USDT"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl">
-
-        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
-
-          <i class="fas fa-globe text-white text-2xl"></i>
-
-        </div>
-
-        <div class="flex-1">
-
-          <div class="font-semibold text-lg">
-            EADX Exchange
-          </div>
-
-          <div class="text-sm text-gray-400">
-            BTCW / USDT • Spot Trading
-          </div>
-
-        </div>
-
-      </a>
-
-    </div>
-
-
-    <button onclick="hideBuyModal()"
-            class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl">
-
-      Cancel
-
-    </button>
-
   </div>
 
-</div>
 
+  <script>
 
+    /* =========================================================
+       BLOCKCHAIN NETWORK BACKGROUND
+       Slow moving connected nodes / blocks
+       No explorer API or live data integration
+       ========================================================= */
 
-<!-- ========================================================= -->
-<!-- LIVE BTCW BLOCKCHAIN API -->
-<!-- ========================================================= -->
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
 
-<script>
+    let nodes = [];
+    let links = [];
 
-/*
-===============================================================
- BITCOINPOW LIVE BLOCKCHAIN INTEGRATION
-===============================================================
 
- PRIMARY API:
- https://btcw-explorer.space
-
- Blockchain RPC-style endpoints:
-
- /api/getdifficulty
- /api/getconnectioncount
- /api/getblockcount
- /api/getnetworkhashps
- /api/getblockhash?index=HEIGHT
- /api/getblock?hash=HASH
- /api/getmasternodecount
-
- Extended endpoints:
-
- /ext/getmoneysupply
- /ext/getcurrentprice
- /ext/getnetworkpeers
- /ext/getsummary
- /ext/getbasicstats
- /ext/getlasttxs/0/0/20
-
- Refresh:
- 30 seconds
-===============================================================
-*/
-
-
-const BTCW_API = "https://btcw-explorer.space";
-
-const REFRESH_INTERVAL = 30000;
-
-
-/* ------------------------------------------------------------
-   DOM HELPER
------------------------------------------------------------- */
-
-function $(id) {
-  return document.getElementById(id);
-}
-
-
-/* ------------------------------------------------------------
-   NUMBER PARSER
------------------------------------------------------------- */
-
-function toNumber(value) {
-
-  if (typeof value === "number") {
-
-    return Number.isFinite(value) ? value : null;
-
-  }
-
-  if (typeof value !== "string") {
-
-    return null;
-
-  }
-
-  const n = Number(
-    value.replace(/,/g, "").trim()
-  );
-
-  return Number.isFinite(n) ? n : null;
-
-}
-
-
-/* ------------------------------------------------------------
-   NUMBER FORMAT
------------------------------------------------------------- */
-
-function formatNumber(value, decimals = 2) {
-
-  const n = toNumber(value);
-
-  if (n === null) {
-    return "—";
-  }
-
-  return n.toLocaleString(undefined, {
-    maximumFractionDigits: decimals
-  });
-
-}
-
-
-/* ------------------------------------------------------------
-   COMPACT FORMAT
------------------------------------------------------------- */
-
-function formatCompact(value) {
-
-  const n = toNumber(value);
-
-  if (n === null) {
-    return "—";
-  }
-
-
-  if (Math.abs(n) >= 1e15) {
-
-    return (n / 1e15).toFixed(2) + "Q";
-
-  }
-
-  if (Math.abs(n) >= 1e12) {
-
-    return (n / 1e12).toFixed(2) + "T";
-
-  }
-
-  if (Math.abs(n) >= 1e9) {
-
-    return (n / 1e9).toFixed(2) + "B";
-
-  }
-
-  if (Math.abs(n) >= 1e6) {
-
-    return (n / 1e6).toFixed(2) + "M";
-
-  }
-
-  if (Math.abs(n) >= 1e3) {
-
-    return (n / 1e3).toFixed(2) + "K";
-
-  }
-
-  return n.toLocaleString();
-
-}
-
-
-/* ------------------------------------------------------------
-   HASHRATE FORMAT
------------------------------------------------------------- */
-
-function formatHashrate(value) {
-
-  const n = toNumber(value);
-
-  if (n === null) {
-    return "—";
-  }
-
-
-  if (n >= 1e18) {
-
-    return (n / 1e18).toFixed(2) + " EH/s";
-
-  }
-
-  if (n >= 1e15) {
-
-    return (n / 1e15).toFixed(2) + " PH/s";
-
-  }
-
-  if (n >= 1e12) {
-
-    return (n / 1e12).toFixed(2) + " TH/s";
-
-  }
-
-  if (n >= 1e9) {
-
-    return (n / 1e9).toFixed(2) + " GH/s";
-
-  }
-
-  if (n >= 1e6) {
-
-    return (n / 1e6).toFixed(2) + " MH/s";
-
-  }
-
-  if (n >= 1e3) {
-
-    return (n / 1e3).toFixed(2) + " KH/s";
-
-  }
-
-  return n.toFixed(2) + " H/s";
-
-}
-
-
-/* ------------------------------------------------------------
-   SET STAT
------------------------------------------------------------- */
-
-function setStat(id, value) {
-
-  const element = $(id);
-
-  if (!element) {
-    return;
-  }
-
-  element.textContent =
-    value === null ||
-    value === undefined ||
-    value === ""
-      ? "—"
-      : value;
-
-}
-
-
-/* ------------------------------------------------------------
-   LIVE STATUS
------------------------------------------------------------- */
-
-function setConnectionStatus(online, message) {
-
-  const dot = $("live-dot");
-  const status = $("live-status");
-
-  if (dot) {
-
-    dot.className =
-      "inline-block w-2 h-2 rounded-full " +
-      (
-        online
-          ? "bg-green-400 animate-pulse"
-          : "bg-red-500"
-      );
-
-  }
-
-
-  if (status) {
-
-    status.textContent = message;
-
-  }
-
-}
-
-
-/* ------------------------------------------------------------
-   API ERROR
------------------------------------------------------------- */
-
-function showApiError(message) {
-
-  const box = $("api-error");
-
-  if (!box) {
-    return;
-  }
-
-  box.textContent = message;
-
-  box.classList.remove("hidden");
-
-}
-
-
-function hideApiError() {
-
-  const box = $("api-error");
-
-  if (!box) {
-    return;
-  }
-
-  box.classList.add("hidden");
-
-}
-
-
-/* ------------------------------------------------------------
-   FETCH API
------------------------------------------------------------- */
-
-async function btcwFetch(endpoint) {
-
-  const url = BTCW_API + endpoint;
-
-  const response = await fetch(url, {
-
-    method: "GET",
-
-    mode: "cors",
-
-    cache: "no-store",
-
-    headers: {
-      "Accept": "application/json, text/plain, */*"
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
 
-  });
 
+    class Node {
 
-  if (!response.ok) {
+      constructor() {
 
-    throw new Error(
-      `HTTP ${response.status} from ${endpoint}`
-    );
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
 
-  }
+        this.size = Math.random() * 3 + 3;
 
+        /* Some nodes appear as blockchain blocks */
+        this.isBlock = Math.random() < 0.16;
 
-  const text = await response.text();
+        /* Slow blinking */
+        this.phase = Math.random() * Math.PI * 2;
+        this.speed = 0.4 + Math.random() * 0.8;
 
+        /* Very slow movement */
+        this.vx = (Math.random() - 0.5) * 0.18;
+        this.vy = (Math.random() - 0.5) * 0.18;
+      }
 
-  if (!text) {
 
-    return null;
+      opacityAt(t) {
 
-  }
+        return 0.35 +
+          0.65 *
+          (0.5 + 0.5 * Math.sin(t * this.speed + this.phase));
 
+      }
 
-  try {
 
-    return JSON.parse(text);
+      move() {
 
-  } catch {
+        this.x += this.vx;
+        this.y += this.vy;
 
-    return text.trim();
 
-  }
+        if (this.x < 0 || this.x > canvas.width) {
+          this.vx *= -1;
+        }
 
-}
 
+        if (this.y < 0 || this.y > canvas.height) {
+          this.vy *= -1;
+        }
 
-/* ------------------------------------------------------------
-   FETCH INDIVIDUAL LIVE VALUES
------------------------------------------------------------- */
+      }
 
-async function fetchLiveBTCWData() {
 
-  /*
-   We intentionally use the individual API endpoints
-   supplied in the BTCW explorer documentation.
-  */
+      draw(t) {
 
+        const o = this.opacityAt(t);
 
-  const results = await Promise.allSettled([
+        ctx.shadowBlur =
+          this.isBlock ? 16 * o : 12 * o;
 
-    btcwFetch("/api/getblockcount"),
+        ctx.shadowColor =
+          `rgba(247, 147, 26, ${o})`;
 
-    btcwFetch("/api/getdifficulty"),
 
-    btcwFetch("/api/getnetworkhashps"),
+        if (this.isBlock) {
 
-    btcwFetch("/api/getconnectioncount"),
+          const s = this.size * 2.8;
 
-    btcwFetch("/api/getmasternodecount"),
+          ctx.strokeStyle =
+            `rgba(247, 147, 26, ${o})`;
 
-    btcwFetch("/ext/getmoneysupply"),
+          ctx.lineWidth = 1.5;
 
-    btcwFetch("/ext/getcurrentprice"),
+          ctx.strokeRect(
+            this.x - s / 2,
+            this.y - s / 2,
+            s,
+            s
+          );
 
-    btcwFetch("/ext/getnetworkpeers")
+        } else {
 
-  ]);
+          ctx.fillStyle =
+            `rgba(247, 147, 26, ${o})`;
 
+          ctx.beginPath();
 
-  function value(index) {
+          ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI * 2
+          );
 
-    const result = results[index];
+          ctx.fill();
 
-    if (result.status === "fulfilled") {
+        }
 
-      return result.value;
-
-    }
-
-    console.warn(
-      "BTCW API endpoint failed:",
-      result.reason
-    );
-
-    return null;
-
-  }
-
-
-  return {
-
-    blockHeight: value(0),
-
-    difficulty: value(1),
-
-    hashrate: value(2),
-
-    connections: value(3),
-
-    masternodes: value(4),
-
-    supply: value(5),
-
-    price: value(6),
-
-    peers: value(7)
-
-  };
-
-}
-
-
-/* ------------------------------------------------------------
-   GET LATEST BLOCK
------------------------------------------------------------- */
-
-async function fetchLatestBlock(height) {
-
-  const h = toNumber(height);
-
-  if (h === null) {
-
-    return null;
-
-  }
-
-
-  try {
-
-    const hashResponse =
-      await btcwFetch(
-        "/api/getblockhash?index=" +
-        encodeURIComponent(Math.floor(h))
-      );
-
-
-    const hash =
-      typeof hashResponse === "string"
-        ? hashResponse.replace(/"/g, "").trim()
-        : hashResponse?.hash;
-
-
-    if (!hash) {
-
-      return null;
+      }
 
     }
 
 
-    const block =
-      await btcwFetch(
-        "/api/getblock?hash=" +
-        encodeURIComponent(hash)
-      );
-
-
-    return {
-
-      hash,
-      data: block
-
-    };
-
-  } catch (error) {
-
-    console.warn(
-      "Unable to fetch latest BTCW block:",
-      error
-    );
-
-    return null;
-
-  }
-
-}
-
-
-/* ------------------------------------------------------------
-   PRICE FORMAT
------------------------------------------------------------- */
-
-function formatPrice(data) {
-
-  if (data === null || data === undefined) {
-
-    return "—";
-
-  }
-
-
-  /*
-   getcurrentprice may return either an object
-   or a numeric/string value depending on explorer version.
-  */
-
-
-  if (typeof data === "object") {
-
-    const usd =
-      data.USD ??
-      data.usd ??
-      data.lastUSDPrice ??
-      data.priceUSD ??
-      data.priceUsd;
-
-
-    if (usd !== undefined && toNumber(usd) !== null) {
-
-      return "$" + formatNumber(usd, 8);
-
-    }
-
-  }
-
-
-  const n = toNumber(data);
-
-  if (n !== null) {
-
-    return "$" + formatNumber(n, 8);
-
-  }
-
-
-  return "—";
-
-}
-
-
-/* ------------------------------------------------------------
-   MAIN DASHBOARD UPDATE
------------------------------------------------------------- */
-
-async function updateBlockchainDashboard() {
-
-  try {
-
-    setConnectionStatus(
-      true,
-      "Connecting to BTCW Explorer..."
-    );
-
-
-    const data =
-      await fetchLiveBTCWData();
-
-
-    /*
-     Determine whether we received
-     at least one live API value.
-    */
-
-    const hasData =
-      data.blockHeight !== null ||
-      data.difficulty !== null ||
-      data.hashrate !== null ||
-      data.supply !== null;
-
-
-    if (!hasData) {
-
-      throw new Error(
-        "No live BTCW API data received."
-      );
-
-    }
-
-
-    /* --------------------------------------------------------
-       BLOCK HEIGHT
-    -------------------------------------------------------- */
-
-    const height =
-      toNumber(data.blockHeight);
-
-
-    setStat(
-      "stat-height",
-      height !== null
-        ? height.toLocaleString()
-        : "—"
-    );
-
-
-    /* --------------------------------------------------------
-       DIFFICULTY
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-difficulty",
-      formatCompact(data.difficulty)
-    );
-
-
-    /* --------------------------------------------------------
-       NETWORK HASHRATE
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-hashrate",
-      formatHashrate(data.hashrate)
-    );
-
-
-    /* --------------------------------------------------------
-       CONNECTIONS
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-connections",
-      formatNumber(data.connections, 0)
-    );
-
-
-    /* --------------------------------------------------------
-       MASTERNODES
-    -------------------------------------------------------- */
-
-    let masternodes = data.masternodes;
-
-
-    /*
-      getmasternodecount may return an object
-      depending on explorer version.
-    */
-
-    if (typeof masternodes === "object" && masternodes !== null) {
-
-      masternodes =
-        masternodes.total ??
-        masternodes.count ??
-        masternodes.masternodes;
-
-    }
-
-
-    setStat(
-      "stat-masternodes",
-      formatNumber(masternodes, 0)
-    );
-
-
-    /* --------------------------------------------------------
-       MONEY SUPPLY
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-supply",
-
-      data.supply !== null
-        ? formatCompact(data.supply) + " BTCW"
-        : "—"
-
-    );
-
-
-    /* --------------------------------------------------------
-       PRICE
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-price",
-      formatPrice(data.price)
-    );
-
-
-    /* --------------------------------------------------------
-       NETWORK PEERS
-    -------------------------------------------------------- */
-
-    let peerCount = null;
-
-
-    if (Array.isArray(data.peers)) {
-
-      peerCount = data.peers.length;
-
-    }
-
-
-    setStat(
-      "stat-peers",
-      peerCount !== null
-        ? peerCount.toLocaleString()
-        : "—"
-    );
-
-
-    /* --------------------------------------------------------
-       LATEST BLOCK
-    -------------------------------------------------------- */
-
-    setStat(
-      "stat-lastblock",
-      height !== null
-        ? "#" + height.toLocaleString()
-        : "—"
-    );
-
-
-    /* --------------------------------------------------------
-       HERO LIVE BLOCK
-    -------------------------------------------------------- */
-
-    if ($("network-live")) {
-
-      $("network-live").textContent =
-        "LIVE • Mainnet Active • Block " +
-        (
-          height !== null
-            ? height.toLocaleString()
-            : "—"
+    function buildNetwork() {
+
+      nodes = [];
+
+      const count =
+        Math.min(
+          160,
+          Math.floor(
+            (canvas.width * canvas.height) / 9000
+          )
         );
 
-    }
 
+      for (let i = 0; i < count; i++) {
 
-    /* --------------------------------------------------------
-       STATUS
-    -------------------------------------------------------- */
+        nodes.push(new Node());
 
-    setConnectionStatus(
-      true,
-      "Live from BTCW Explorer"
-    );
-
-
-    if ($("live-updated")) {
-
-      $("live-updated").textContent =
-        "Updated " +
-        new Date().toLocaleTimeString();
+      }
 
     }
 
 
-    hideApiError();
+    function drawLinks(t) {
+
+      ctx.shadowBlur = 0;
+
+      const linkDistance = 230;
 
 
-    /*
-      Fetch the actual latest block as a secondary request.
+      for (let i = 0; i < nodes.length; i++) {
 
-      This is intentionally done after the main dashboard
-      so one slow block request cannot prevent the stats
-      from appearing.
-    */
+        for (let j = i + 1; j < nodes.length; j++) {
 
-    if (height !== null) {
+          const a = nodes[i];
+          const b = nodes[j];
 
-      fetchLatestBlock(height)
-        .then(block => {
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
 
-          if (!block) {
-            return;
+          const dist =
+            Math.sqrt(dx * dx + dy * dy);
+
+
+          if (dist < linkDistance) {
+
+            const strength =
+              1 - dist / linkDistance;
+
+
+            const o =
+              ((a.opacityAt(t) + b.opacityAt(t)) / 2) *
+              strength *
+              0.75;
+
+
+            ctx.strokeStyle =
+              `rgba(247, 147, 26, ${o})`;
+
+            ctx.lineWidth = 1.5;
+
+            ctx.beginPath();
+
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+
+            ctx.stroke();
+
           }
 
-          console.log(
-            "BTCW latest block:",
-            block
-          );
-
-        })
-        .catch(error => {
-
-          console.warn(
-            "Latest block request failed:",
-            error
-          );
-
-        });
-
-    }
-
-
-    /*
-      Developer console.
-
-      Open F12 → Console to see the raw live data.
-    */
-
-    console.log(
-      "BTCW LIVE DATA",
-      data
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "BTCW LIVE API ERROR:",
-      error
-    );
-
-
-    setConnectionStatus(
-      false,
-      "BTCW Explorer connection failed"
-    );
-
-
-    if ($("live-updated")) {
-
-      $("live-updated").textContent =
-        "Retrying...";
-
-    }
-
-
-    showApiError(
-      "Unable to read the BTCW Explorer API. " +
-      "If the API opens normally in your browser but " +
-      "does not load here, the explorer server may need " +
-      "to allow CORS requests from this website."
-    );
-
-  }
-
-}
-
-
-/* ------------------------------------------------------------
-   START LIVE DASHBOARD
------------------------------------------------------------- */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    updateBlockchainDashboard();
-
-    setInterval(
-      updateBlockchainDashboard,
-      REFRESH_INTERVAL
-    );
-
-  }
-);
-
-
-/* ============================================================
-   NETWORK PARTICLES
-============================================================ */
-
-const canvas =
-  document.getElementById("particles");
-
-const ctx =
-  canvas.getContext("2d");
-
-let nodes = [];
-
-
-function resizeCanvas() {
-
-  canvas.width =
-    window.innerWidth;
-
-  canvas.height =
-    window.innerHeight;
-
-}
-
-
-class Node {
-
-  constructor() {
-
-    this.x =
-      Math.random() *
-      canvas.width;
-
-    this.y =
-      Math.random() *
-      canvas.height;
-
-    this.size =
-      Math.random() * 3 + 3;
-
-    this.isBlock =
-      Math.random() < 0.16;
-
-    this.phase =
-      Math.random() *
-      Math.PI *
-      2;
-
-    this.speed =
-      0.4 +
-      Math.random() *
-      0.8;
-
-    this.vx =
-      (Math.random() - 0.5) *
-      0.18;
-
-    this.vy =
-      (Math.random() - 0.5) *
-      0.18;
-
-  }
-
-
-  opacityAt(t) {
-
-    return 0.35 +
-      0.65 *
-      (
-        0.5 +
-        0.5 *
-        Math.sin(
-          t *
-          this.speed +
-          this.phase
-        )
-      );
-
-  }
-
-
-  move() {
-
-    this.x += this.vx;
-    this.y += this.vy;
-
-
-    if (
-      this.x < 0 ||
-      this.x > canvas.width
-    ) {
-
-      this.vx *= -1;
-
-    }
-
-
-    if (
-      this.y < 0 ||
-      this.y > canvas.height
-    ) {
-
-      this.vy *= -1;
-
-    }
-
-  }
-
-
-  draw(t) {
-
-    const o =
-      this.opacityAt(t);
-
-
-    ctx.shadowBlur =
-      this.isBlock
-        ? 16 * o
-        : 12 * o;
-
-
-    ctx.shadowColor =
-      `rgba(247,147,26,${o})`;
-
-
-    if (this.isBlock) {
-
-      const s =
-        this.size * 2.8;
-
-
-      ctx.strokeStyle =
-        `rgba(247,147,26,${o})`;
-
-
-      ctx.lineWidth = 1.5;
-
-
-      ctx.strokeRect(
-        this.x - s / 2,
-        this.y - s / 2,
-        s,
-        s
-      );
-
-    } else {
-
-      ctx.fillStyle =
-        `rgba(247,147,26,${o})`;
-
-
-      ctx.beginPath();
-
-      ctx.arc(
-        this.x,
-        this.y,
-        this.size,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fill();
-
-    }
-
-  }
-
-}
-
-
-function buildNetwork() {
-
-  nodes = [];
-
-
-  const count =
-    Math.min(
-      160,
-      Math.floor(
-        (
-          canvas.width *
-          canvas.height
-        ) / 9000
-      )
-    );
-
-
-  for (
-    let i = 0;
-    i < count;
-    i++
-  ) {
-
-    nodes.push(
-      new Node()
-    );
-
-  }
-
-}
-
-
-function drawLinks(t) {
-
-  ctx.shadowBlur = 0;
-
-  const linkDistance = 230;
-
-
-  for (
-    let i = 0;
-    i < nodes.length;
-    i++
-  ) {
-
-    for (
-      let j = i + 1;
-      j < nodes.length;
-      j++
-    ) {
-
-      const a = nodes[i];
-      const b = nodes[j];
-
-
-      const dx =
-        a.x - b.x;
-
-      const dy =
-        a.y - b.y;
-
-
-      const dist =
-        Math.sqrt(
-          dx * dx +
-          dy * dy
-        );
-
-
-      if (
-        dist <
-        linkDistance
-      ) {
-
-        const strength =
-          1 -
-          dist /
-          linkDistance;
-
-
-        const o =
-          (
-            a.opacityAt(t) +
-            b.opacityAt(t)
-          ) /
-          2 *
-          strength *
-          0.75;
-
-
-        ctx.strokeStyle =
-          `rgba(247,147,26,${o})`;
-
-
-        ctx.lineWidth = 1.5;
-
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-          a.x,
-          a.y
-        );
-
-        ctx.lineTo(
-          b.x,
-          b.y
-        );
-
-        ctx.stroke();
+        }
 
       }
 
     }
 
-  }
 
-}
+    function animate(timestamp) {
 
+      const t = timestamp / 1000;
 
-function animate(timestamp) {
-
-  const t =
-    timestamp / 1000;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
 
 
-  for (
-    const n of nodes
-  ) {
-
-    n.move();
-
-  }
+      for (const n of nodes) {
+        n.move();
+      }
 
 
-  drawLinks(t);
+      drawLinks(t);
 
 
-  for (
-    const n of nodes
-  ) {
-
-    n.draw(t);
-
-  }
+      for (const n of nodes) {
+        n.draw(t);
+      }
 
 
-  requestAnimationFrame(
-    animate
-  );
+      requestAnimationFrame(animate);
 
-}
+    }
 
 
-window.addEventListener(
-  "resize",
-  function() {
+    window.addEventListener('resize', () => {
+
+      resizeCanvas();
+      buildNetwork();
+
+    });
+
 
     resizeCanvas();
-
     buildNetwork();
 
-  }
-);
+    requestAnimationFrame(animate);
 
 
-resizeCanvas();
+    /* =========================================================
+       MOBILE MENU
+       ========================================================= */
 
-buildNetwork();
+    const menuBtn =
+      document.getElementById('menu-btn');
 
-requestAnimationFrame(
-  animate
-);
+    const mobileMenu =
+      document.getElementById('mobile-menu');
 
 
+    menuBtn.addEventListener('click', () => {
 
-/* ============================================================
-   MOBILE MENU
-============================================================ */
+      mobileMenu.classList.toggle('hidden');
 
-const menuBtn =
-  document.getElementById(
-    "menu-btn"
-  );
+      menuBtn.innerHTML =
+        mobileMenu.classList.contains('hidden')
+          ? '<i class="fas fa-bars"></i>'
+          : '<i class="fas fa-times"></i>';
 
-const mobileMenu =
-  document.getElementById(
-    "mobile-menu"
-  );
+    });
 
 
-menuBtn.addEventListener(
-  "click",
-  function() {
+    function closeMobileMenu() {
 
-    mobileMenu.classList.toggle(
-      "hidden"
-    );
+      mobileMenu.classList.add('hidden');
 
-
-    menuBtn.innerHTML =
-      mobileMenu.classList.contains(
-        "hidden"
-      )
-      ? '<i class="fas fa-bars"></i>'
-      : '<i class="fas fa-times"></i>';
-
-  }
-);
-
-
-function closeMobileMenu() {
-
-  mobileMenu.classList.add(
-    "hidden"
-  );
-
-
-  menuBtn.innerHTML =
-    '<i class="fas fa-bars"></i>';
-
-}
-
-
-
-/* ============================================================
-   MODALS
-============================================================ */
-
-function showExplorerModal() {
-
-  const modal =
-    document.getElementById(
-      "explorer-modal"
-    );
-
-
-  modal.classList.remove(
-    "hidden"
-  );
-
-  modal.classList.add(
-    "flex"
-  );
-
-}
-
-
-function hideExplorerModal() {
-
-  const modal =
-    document.getElementById(
-      "explorer-modal"
-    );
-
-
-  modal.classList.remove(
-    "flex"
-  );
-
-  modal.classList.add(
-    "hidden"
-  );
-
-}
-
-
-function showBuyModal() {
-
-  const modal =
-    document.getElementById(
-      "buy-modal"
-    );
-
-
-  modal.classList.remove(
-    "hidden"
-  );
-
-  modal.classList.add(
-    "flex"
-  );
-
-}
-
-
-function hideBuyModal() {
-
-  const modal =
-    document.getElementById(
-      "buy-modal"
-    );
-
-
-  modal.classList.remove(
-    "flex"
-  );
-
-  modal.classList.add(
-    "hidden"
-  );
-
-}
-
-
-document.addEventListener(
-  "keydown",
-  function(e) {
-
-    if (
-      e.key ===
-      "Escape"
-    ) {
-
-      const buyModal =
-        document.getElementById(
-          "buy-modal"
-        );
-
-
-      const explorerModal =
-        document.getElementById(
-          "explorer-modal"
-        );
-
-
-      if (
-        !buyModal.classList.contains(
-          "hidden"
-        )
-      ) {
-
-        hideBuyModal();
-
-      }
-
-
-      if (
-        !explorerModal.classList.contains(
-          "hidden"
-        )
-      ) {
-
-        hideExplorerModal();
-
-      }
+      menuBtn.innerHTML =
+        '<i class="fas fa-bars"></i>';
 
     }
 
-  }
-);
 
-</script>
+    /* =========================================================
+       EXPLORER MODAL
+       ========================================================= */
+
+    function showExplorerModal() {
+
+      const modal =
+        document.getElementById('explorer-modal');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+    }
+
+
+    function hideExplorerModal() {
+
+      const modal =
+        document.getElementById('explorer-modal');
+
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+
+    }
+
+
+    /* =========================================================
+       BUY BTCW MODAL
+       ========================================================= */
+
+    function showBuyModal() {
+
+      const modal =
+        document.getElementById('buy-modal');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+    }
+
+
+    function hideBuyModal() {
+
+      const modal =
+        document.getElementById('buy-modal');
+
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+
+    }
+
+
+    /* =========================================================
+       ESC KEY
+       ========================================================= */
+
+    document.addEventListener('keydown', function(e) {
+
+      if (e.key === "Escape") {
+
+        const buyModal =
+          document.getElementById('buy-modal');
+
+        const explorerModal =
+          document.getElementById('explorer-modal');
+
+
+        if (!buyModal.classList.contains('hidden')) {
+          hideBuyModal();
+        }
+
+
+        if (!explorerModal.classList.contains('hidden')) {
+          hideExplorerModal();
+        }
+
+      }
+
+    });
+
+  </script>
 
 </body>
 </html>
 ```
-
-This version uses the exact endpoints you supplied: `/api/getblockcount`, `/api/getdifficulty`, `/api/getnetworkhashps`, `/api/getconnectioncount`, `/api/getmasternodecount`, `/ext/getmoneysupply`, `/ext/getcurrentprice`, and `/ext/getnetworkpeers`. The live API is demonstrably returning data from those endpoints.
-
-### One important issue
-
-If you put this HTML on `bitcoinpow.org` and **the numbers still show `—`**, don't change the API URLs again. The likely problem is **CORS**.
-
-Your browser does this:
-
-```text
-bitcoinpow.org
-       ↓
-JavaScript fetch()
-       ↓
-https://btcw-explorer.space/api/getblockcount
-```
-
-The BTCW API itself is working — I confirmed that the endpoint returns:
-
-```text
-140706
-```
-
-for the current block count.
-
-But the BTCW explorer server must allow your website's origin with a response header such as:
-
-```http
-Access-Control-Allow-Origin: *
-```
-
-or:
-
-```http
-Access-Control-Allow-Origin: https://bitcoinpow.org
-```
-
-If that header isn't present, **no amount of changing the JavaScript endpoint will make a static website's browser fetch work**.
-
-### Best solution if CORS is the problem
-
-Use a small proxy on your own domain:
-
-```text
-Your website
-     ↓
-https://bitcoinpow.org/api/btcw/...
-     ↓
-Server-side proxy
-     ↓
-https://btcw-explorer.space/api/...
-```
-
-Then the browser communicates with your own domain, avoiding the cross-origin restriction.
-
-Also, I deliberately changed the dashboard so it no longer claims that **network connections = miners**. The supplied `getconnectioncount` endpoint is specifically the number of connections the explorer has to other nodes, and `getnetworkpeers` gives the peers seen by the explorer. Your current explorer is reporting 12 connections/peers.
-
-If you deploy the HTML above and it still shows `—`, **open F12 → Console**. The error will tell us immediately whether this is CORS or another server/API issue.
