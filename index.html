@@ -677,110 +677,136 @@
   </div>
 
 
-  <!-- BUY BTCW MODAL -->
+ <!-- BUY BTCW MODAL -->
+<div
+  id="buy-modal"
+  onclick="if (event.target.id === 'buy-modal') hideBuyModal()"
+  class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4">
+
   <div
-    id="buy-modal"
-    onclick="if (event.target.id === 'buy-modal') hideBuyModal()"
-    class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[100] px-4">
+    onclick="event.stopImmediatePropagation()"
+    class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
 
-    <div
-      onclick="event.stopImmediatePropagation()"
-      class="modal glass max-w-md w-full p-8 rounded-3xl border border-white/20">
+    <div class="flex justify-between items-center mb-6">
 
-      <div class="flex justify-between items-center mb-6">
-
-        <h3 class="text-2xl font-bold">
-          Buy BTCW
-        </h3>
-
-        <button
-          onclick="hideBuyModal()"
-          class="text-2xl text-gray-400 hover:text-white"
-          aria-label="Close buy menu">
-          ×
-        </button>
-
-      </div>
-
-
-      <p class="text-gray-400 mb-6 text-sm">
-        Choose your preferred exchange:
-      </p>
-
-
-      <div class="space-y-4">
-
-        <!-- DEX-TRADE -->
-        <a
-          href="https://www.dex-trade.com/spot/trading/BTCWUSDT?interface=classic"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-
-          <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
-
-            <i class="fas fa-chart-line text-black text-2xl"></i>
-
-          </div>
-
-          <div class="flex-1">
-
-            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
-              Dex-Trade
-            </div>
-
-            <div class="text-sm text-gray-400">
-              BTCW / USDT • Spot Trading
-            </div>
-
-          </div>
-
-          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
-
-        </a>
-
-
-        <!-- EADX -->
-        <a
-          href="https://eadxexchange.com/trade/BTCW-USDT"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
-
-          <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
-
-            <i class="fas fa-globe text-white text-2xl"></i>
-
-          </div>
-
-          <div class="flex-1">
-
-            <div class="font-semibold text-lg group-hover:text-amber-400 transition">
-              EADX Exchange
-            </div>
-
-            <div class="text-sm text-gray-400">
-              BTCW / USDT • Spot Trading
-            </div>
-
-          </div>
-
-          <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
-
-        </a>
-
-      </div>
-
+      <h3 class="text-2xl font-bold">
+        Buy BTCW
+      </h3>
 
       <button
         onclick="hideBuyModal()"
-        class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
-        Cancel
+        class="text-2xl text-gray-400 hover:text-white"
+        aria-label="Close buy menu">
+        ×
       </button>
 
     </div>
-  </div>
 
+    <p class="text-gray-400 mb-6 text-sm">
+      Choose your preferred exchange:
+    </p>
+
+    <div class="space-y-4">
+
+      <!-- BTCW TRADE -->
+      <a
+        href="https://btcw.trade"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
+
+          <i class="fas fa-chart-line text-black text-2xl"></i>
+
+        </div>
+
+        <div class="flex-1">
+
+          <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+            BTCW Trade
+          </div>
+
+          <div class="text-sm text-gray-400">
+            BTCW Trading
+          </div>
+
+        </div>
+
+        <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+      </a>
+
+
+      <!-- FATHOM -->
+      <a
+        href="https://www.fathom.cx/trade/BTCW-USDT"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+
+          <i class="fas fa-water text-white text-2xl"></i>
+
+        </div>
+
+        <div class="flex-1">
+
+          <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+            Fathom
+          </div>
+
+          <div class="text-sm text-gray-400">
+            BTCW / USDT • Trading
+          </div>
+
+        </div>
+
+        <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+      </a>
+
+
+      <!-- EADX -->
+      <a
+        href="https://eadxexchange.com/trade/BTCW-USDT"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center gap-4 p-5 border border-white/20 hover:border-amber-400 rounded-2xl transition-all hover:bg-white/5">
+
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0">
+
+          <i class="fas fa-globe text-white text-2xl"></i>
+
+        </div>
+
+        <div class="flex-1">
+
+          <div class="font-semibold text-lg group-hover:text-amber-400 transition">
+            EADX Exchange
+          </div>
+
+          <div class="text-sm text-gray-400">
+            BTCW / USDT • Spot Trading
+          </div>
+
+        </div>
+
+        <i class="fas fa-external-link-alt text-gray-400 group-hover:text-amber-400"></i>
+
+      </a>
+
+    </div>
+
+    <button
+      onclick="hideBuyModal()"
+      class="mt-8 w-full py-3.5 border border-white/40 hover:bg-white/5 rounded-2xl font-medium transition">
+      Cancel
+    </button>
+
+  </div>
+</div>
 
   <script>
 
